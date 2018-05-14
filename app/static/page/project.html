@@ -24,7 +24,6 @@
 <script>
     (function page2Init(){
         $.get(interfaceUrl.project,function(data){
-            // debugger;
             if(data&&data.code == 200){
                 for(let i of data.data){
                     let cassnum = i.cassnum;
@@ -35,11 +34,18 @@
                     let leader = i.leader;
                     let remark = i.remark;
                     let projectid = i.projectid;
-                    let tableBtn = '<button class="btn btn-link btn-sm">执行</button><button class="btn btn-link btn-sm">修改</button><button class="btn btn-link btn-sm">删除</button>'; 
+                    let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="btn btn-link btn-sm">修改</button><button class="btn btn-link btn-sm">删除</button>'; 
                     let tr = $("<tr><td>"+projectid+"</td><td>"+project+"</td><td>"+explain+"</td><td>"+modulenum+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
                     
                     $(".page2 .table tbody").append(tr);
                 }
+                
+                
+                $(".content").on("click",".implement",function(){
+                    $(".mask").addClass("show").removeClass("hidden");
+                    debugger;
+                });
+                
             }
         });
         
