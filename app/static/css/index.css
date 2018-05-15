@@ -1,5 +1,64 @@
 html,body{
     overflow: hidden;
+    font-family: "微软雅黑";
+}
+.mask{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(152, 151, 151, 0.6);
+    z-index: 9998;
+}
+.mask .alertBox{
+    position: absolute;
+    width: 600px;
+    height: 800px;
+    background: #FFF;
+    left: 35%;
+    top: 6%;
+    border-radius: 30px;
+    border: 1px solid #777;
+    box-shadow: 15px 10px 15px #8c8080;
+}
+.mask .alertBox .alertHeader{
+    height: 6%;
+    width: 100%;
+    border-bottom: 1px solid #8c8080;
+    line-height: 50px;
+    font-size: 16px;
+    color: #827676;
+    text-indent: 40px;
+}
+.mask .alertBox .alertBody{
+    height:  84%;
+    width: 96%;
+    padding: 2%;
+}
+.mask .alertBox .alertBottom{
+    height: 6%;
+    width: 100%;
+    text-align: center;
+}
+.mask .alertBox .alertBottom .sure{
+    border: 1px solid #ccc;
+    background: #7f70ff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bolder;
+    width: 60px;
+    height:34px;
+    border-radius: 8px;
+}
+.mask .alertBox .alertBottom .cancel{
+    border: 1px solid #ccc;
+    background: #FFF;
+    color: #ccc;
+    font-size: 16px;
+    width: 60px;
+    height: 34px;
+    border-radius: 8px;
 }
 .container{
     height: 100%;
