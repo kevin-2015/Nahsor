@@ -23,8 +23,12 @@
 </div>
 <script>
     (function page2Init(){
-        $.get(interfaceUrl.product,function(data){
+        function pageInit(){
+            $.get(interfaceUrl.product,function(data){
             if(data&&data.code == 200){
+                
+                $(".page2 .table tbody").html("");
+                
                 for(let i of data.data){
                     let jectnum = i.jectnum;
                     let product = i.product;
@@ -34,51 +38,144 @@
                     let leader = i.leader;
                     let remark = i.remark;
                     let createtime = i.createtime;
-                    let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="btn btn-link btn-sm">删除</button>'; 
+                    let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
                     let tr = $("<tr><td>"+productid+"</td><td>"+product+"</td><td>"+explain+"</td><td>"+jectnum+"</td><td>"+modulenum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
                     
                     $(".page2 .table tbody").append(tr);
+                    }
                 }
-                
-                
-                let table = {
+            });
+        };
+        pageInit();
+        
+        
+        let table = {
                     "alertTab"  : $('<form class="form-horizontal" role="form"></form>'),
-                    "proName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">产品名称</label><div class="col-sm-10"><input class="form-control" id="focusedInput" type="text" placeholder="请输入胡晋科智障不解释"></div></div>'),
-                    "proInfo"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">描述</label><div class="col-sm-10"><input class="form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
-                    "proLeader" : $('<div class="form-group"><label class="col-sm-2 control-label" for="leader">责任人</label><div class="col-sm-10"><input class="form-control" id="focusedInput" type="text" placeholder="请输入责任人"></div></div>'),
-                    "proText"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">备注</label><div class="col-sm-10"><input class="form-control" id="focusedInput" type="text" placeholder="请输入备注"></div></div>')
+                    "proName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">产品名称</label><div class="col-sm-10"><input class="product form-control" id="focusedInput" type="text" placeholder="请输入胡晋科智障不解释"></div></div>'),
+                    "proInfo"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">描述</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
+                    "proLeader" : $('<div class="form-group"><label class="col-sm-2 control-label" for="leader">责任人</label><div class="col-sm-10"><input class="leader form-control" id="focusedInput" type="text" placeholder="请输入责任人"></div></div>'),
+                    "proText"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">备注</label><div class="col-sm-10"><input class="remark form-control" id="focusedInput" type="text" placeholder="请输入备注"></div></div>')
                 };
                 
                 
                 $(".add").on("click",function(){                        //新增
                     $(".mask").addClass("show").removeClass("hidden");
+                    $(".alertBox").addClass("add");
+                    $(".alertHeader span").eq(0).text("新增");
                     $(".alertBody").html("");
+                    
+                    let inputData = table.alertTab.find("input");
                     
                     $(".alertBody").append(table.alertTab);
                     table.alertTab.append(table.proName,table.proInfo,table.proLeader,table.proText);
+                    
+                    if(inputData.length>0){
+                        for(let i =0;i < inputData.length;i++){
+                            $(inputData[i]).val("");
+                        }
+                    }
                 });
                 
                 $(".content").on("click",".modify",function(){          //修改
+                    let thisLine = $(this).parents("tr").find("td");
+                    
+                    let pid = $(thisLine[0]).text();
+                    let name = $(thisLine[1]).text();
+                    let info = $(thisLine[2]).text();
+                    let leader = $(thisLine[5]).text();
+                    let text = $(thisLine[6]).text();
+                    
                     $(".mask").addClass("show").removeClass("hidden");
+                    $(".alertBox").addClass("modify");
+                    $(".alertHeader span").eq(0).text("修改-编号:");
+                    $(".alertHeader span").eq(1).text(pid);
                     $(".alertBody").html("");
                     
                     $(".alertBody").append(table.alertTab);
                     table.alertTab.append(table.proName,table.proInfo,table.proLeader,table.proText);
+                    
+                    let input = table.alertTab.find("input");
+                    $(input[0]).val(name);
+                    $(input[1]).val(info);
+                    $(input[2]).val(leader);
+                    $(input[3]).val(text);
+                    
                 })
+        
+                //删除
+                $(".content").on("click",".delete",function(){
+                    let deletePid = $(this).parents("tr").find("td").eq(0).text();
+                    let datas = JSON.stringify({"pid":deletePid});
+                    
+                    $.ajax({
+                        "url"       : interfaceUrl.deleteproduct,
+                        "type"      : "post",
+                        "headers"   : {"Content-Type":"application/json"},
+                        "data"      : datas,
+                        "success":function(data){
+                            console.log(data.msg);
+                            pageInit();
+                        }
+                    });
+                });
                 
-                
+                //取消
                 $(".mask").on("click",".cancel",function(){
                     $(".mask").addClass("hidden").removeClass("show");
                 });
                 
+        
+                //点击确定
                 $(".mask").on("click",".sure",function(){
+                    if($(".alertBox").hasClass("add") == true){
+                        let product = $(".product").val();
+                        let explain = $(".explain").val();
+                        let leader = $(".leader").val();
+                        let remark = $(".remark").val();
+                        
+                        let datas = JSON.stringify({"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
+                        
+                        $.ajax({
+                            "url"       : interfaceUrl.addproduct,
+                            "type"      : "post",
+                            "headers"   : {"Content-Type":"application/json"},
+                            "data"      : datas,
+                            "success":function(data){
+                                console.log(data.msg);
+                                pageInit();
+                            }
+                        })
+                        
+                        $(".alertBox").removeClass("add");
+                    }else if($(".alertBox").hasClass("modify") == true){
+                        let pid = $(".alertHeader span").eq(1).text();
+                        let product = $(".product").val();
+                        let explain = $(".explain").val();
+                        let leader = $(".leader").val();
+                        let remark = $(".remark").val();
+                        
+                        datas = JSON.stringify({"pid": pid,"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
+                        
+                        $.ajax({
+                            "url"       : interfaceUrl.updataproduct,
+                            "type"      : "post",
+                            "headers"   : {"Content-Type":"application/json"},
+                            "data"      : datas,
+                            "success":function(data){
+                                console.log(data.msg);
+                                pageInit();
+                            }
+                        });
+                        
+                        $(".alertBox").removeClass("modify");
+                    }
+                    
                     
                     
                     
                     $(".mask").addClass("hidden").removeClass("show");
+                    
                 });
-            }
-        });
         
         
     })();
