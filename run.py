@@ -2,7 +2,7 @@
 __author__ = 'nahsor'
 from flask_cors import CORS
 from app import create_app
-from app.response import products, projects, modules, testcass
+from app.response import products, projects, modules, testcass, reports
 
 app = create_app("ProductionConfig")
 CORS(app)
