@@ -15,7 +15,7 @@ Logger = Logger()
 @bp.route("/getmodules",methods=["GET"])
 def getmodules():
     '''
-    读取模块列表，这个接口是给新增用例等东西的时候，选择所属项目用的
+    读取模块列表，这个接口是给新增用例等东西的时候，选择所属模块用的
     '''
     sql = "SELECT\
         t_product.id as productid,\

@@ -89,7 +89,7 @@ def querymodule():
 @bp.route("/deletemodule",methods=["POST"])
 def deletemodule():
     '''
-    删除项目
+    删除模块
     {"pid":1}
     '''
     dictdata = request.get_json()
@@ -106,7 +106,7 @@ def deletemodule():
 @bp.route("/readmodule",methods=["POST"])
 def readmodule():
     '''
-    读取项目信息
+    读取模块信息
     {"pid":1}
     '''
     dictdata = request.get_json()
@@ -136,7 +136,7 @@ def updatamodule():
     {
     	"pid":4,
         "projectid":2,
-        "module":"产品名称",
+        "module":"模块名称",
         "explain":"描述",
         "leader":"责任人",
         "remark":"备注"
