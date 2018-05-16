@@ -17,7 +17,9 @@ class Runner(object):
         self.validates = testcass["validate"]
         self.extract = testcass["extract"]
 
-    def run_test(self):
+    def run_test(self, version):
+        # version是t_reports表中的version字段，表示当前测试用例的执行结果版本
+        # vesion越大，版本越靠前
         cassid = self.cassid
         testname = self.testname
         testtype = self.testtype
@@ -55,7 +57,7 @@ class Runner(object):
                     else:
                         status = 1
                         Logger.war("测试用例[%s]检查点执行失败,检查点信息为 --> %s" % (testname, validatekey))
-            insert_test_result(cassid,status,runtime=runtime,result=result,validate=validatekey)
+            insert_test_result(cassid,status,runtime=runtime,result=result,validate=validatekey, version=version)
         except Exception as e:
             status = 2
             Logger.error("测试用例[%s]在执行过程中出现异常，错误信息为 --> %s" % (testname, e))

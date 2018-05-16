@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import requests
 from app.utils.log import Logger
-from app.utils.dbfucs import excute
+from app.utils.dbfucs import excute, query
 
 Logger = Logger()
 
@@ -136,11 +136,14 @@ def get_validata_test(validates):
     return validatelist
 
 
-def insert_test_result(cassid,status,runtime="",result="",validate=""):
+def insert_test_result(cassid,status,runtime="",result="",validate="", version=-1):
     '''
     将测试结果存入到数据库
     '''
-    sql = "INSERT INTO `t_reports` (`cassid`, `status`, `runtime`, `result`, `validate`) VALUES ('%s', '%s', '%s', '%s', '%s')" % (cassid,status,runtime,result,validate)
+    from app.utils.common import get_current_time
+    sql = "INSERT INTO `t_reports` " \
+          "(`cassid`, `status`, `runtime`, `result`, `validate`, `createtime`, `version`) " \
+          "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %d)" % (cassid,status,runtime,result,validate, get_current_time(), version)
     dbres = excute(sql)
     if dbres != True:
         Logger.error("保存测试结果到数据库出错，错误信息 --> %s" % dbres)

@@ -5,7 +5,7 @@
 __author__ = "Jin"
 from flask import jsonify, request
 from app import bp
-from app.utils import dbfucs
+from app.utils import dbfucs, common
 from app.core import collect
 from app.utils.log import Logger
 Logger = Logger()
@@ -43,7 +43,10 @@ def addproject():
     explain = dictdata["explain"]
     leader = dictdata["leader"]
     remark = dictdata["remark"]
-    sql = "insert into t_project values(null,'%s','%s','%s','%s','%s',null,null);" % (productid,project,explain,leader,remark)
+    now = common.get_current_time()
+    sql = "insert into t_project " \
+          "values(null,'%s','%s','%s','%s','%s','%s',null);" \
+          % (productid,project,explain,leader,remark,now)
     res = dbfucs.excute(sql)
     response = {}
     response["code"] = 200
