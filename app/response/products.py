@@ -5,7 +5,7 @@
 __author__ = "Jin"
 from flask import jsonify, request
 from app import bp
-from app.utils import dbfucs
+from app.utils import dbfucs, common
 from app.core import collect
 from app.utils.log import Logger
 Logger = Logger()
@@ -27,7 +27,10 @@ def addproduct():
     explain = dictdata["explain"]
     leader = dictdata["leader"]
     remark = dictdata["remark"]
-    sql = "insert into t_product values(null,'%s','%s','%s','%s',null,null);" % (product,explain,leader,remark)
+    now = common.get_current_time()
+    sql = "insert into t_product " \
+          "values(null,'%s','%s','%s','%s','%s',null);" \
+          % (product,explain,leader,remark, now)
     res = dbfucs.excute(sql)
     response = {}
     response["code"] = 200
