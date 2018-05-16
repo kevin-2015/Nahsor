@@ -9,7 +9,6 @@ CORS(app)
 
 @app.route('/')
 def index():
-    # return '<h1>请访问http://127.0.0.1:8808/report/index.html</h1>'
     return app.send_static_file('index.html')
 
 if __name__ == "__main__":

@@ -34,18 +34,32 @@ def collect_file_cass(filename):
         #     print("【%s】用例执行失败" % test["cass_name"])
 
 
+def get_reports_max_version():
+    """
+    获取测试报告的最后一个版本
+    :return:
+    """
+    from app.utils.dbfucs import query
+    sql = "select max(version) as version from t_reports"
+    r = query(sql)[0]
+    if r.get("version"):
+        return r.get("version") + 1
+    else:
+        return 1
+
+
 def collect_db_cass(jsoncasss):
     '''
     读取json并执行用例。
     '''
-    # all_tests = json.loads(jsoncasss)
+    # 获取当前用例测试结果的最大版本号
+    version = get_reports_max_version()
     for test in jsoncasss:
         if not test:
             Logger().error("没有发现测试用例，结束用例执行！")
         try:
             runner = Runner(test)
-            yield  runner.run_test()
+            yield runner.run_test(version)
         except Exception as e:
-            # raise e
             Logger().error("测试用例[%s]执行失败，失败原因 --> %s"  % (test["testname"], e))
 
