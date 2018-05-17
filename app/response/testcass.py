@@ -71,10 +71,12 @@ def addtcass():
     data = dbfucs.excute(sql)
     if data is True:
         response["code"] = 200
-        response["msg"] = data
+        response["data"] = data
+        response["msg"] = "添加成功!"
     else:
         response["code"] = 500
-        response["msg"] = data
+        response["data"] = data
+        response["msg"] = "添加失败!"
     return jsonify(response)
 
 

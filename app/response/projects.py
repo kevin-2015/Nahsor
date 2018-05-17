@@ -171,7 +171,7 @@ def runproject():
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
     sql = "SELECT\
-        t_testcass.id\
+        t_testcass.*\
     FROM\
         t_project\
     LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
@@ -181,7 +181,6 @@ def runproject():
     jsoncasss = []
     for test in res:
         jsoncasss.append(test)
-    # print(jsoncasss)
     for i in collect.collect_db_cass(jsoncasss):
         Logger.info("*" * 90)
     Logger.info("共计[%d]条测试用例执行完成！" % len(jsoncasss))

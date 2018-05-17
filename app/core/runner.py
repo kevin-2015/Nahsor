@@ -57,8 +57,9 @@ class Runner(object):
                     else:
                         status = 1
                         Logger.war("测试用例[%s]检查点执行失败,检查点信息为 --> %s" % (testname, validatekey))
-            insert_test_result(cassid,status,runtime=runtime,result=result,validate=validatekey, version=version)
+
+            insert_test_result(cassid, status, runtime=runtime, result=result, validate=validatekey, version=version)
         except Exception as e:
             status = 2
             Logger.error("测试用例[%s]在执行过程中出现异常，错误信息为 --> %s" % (testname, e))
-            insert_test_result(cassid,status)
+            insert_test_result(cassid,status, version=version)

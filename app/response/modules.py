@@ -16,15 +16,15 @@ def getproject():
     '''
     读取项目列表，这个接口是给新增模块等东西的时候，选择所属项目用的
     '''
-    sql = "SELECT\
+    sql = """SELECT\
         t_product.id as productid,\
         t_product.product,\
         t_project.id as projectid,\
         t_project.project\
     FROM\
         t_product\
-    LEFT JOIN t_project ON t_product.id = t_project.productid\
-    LEFT JOIN t_modules ON t_project.id = t_modules.projectid"
+    LEFT JOIN t_project ON t_product.id = t_project.productid"""
+    #LEFT JOIN t_modules ON t_project.id = t_modules.projectid"
     res = dbfucs.query(sql)
     response = {}
     response["code"] = 200
@@ -78,6 +78,7 @@ def querymodule():
         t_modules\
     LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
     group by t_modules.id;"
+    print(sql)
     res = dbfucs.query(sql)
     response = {}
     response["code"] = 200
@@ -173,6 +174,7 @@ def runmodule():
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
     sql = "SELECT * FROM t_testcass WHERE moduleid in (%s)" % idlist
+    print(sql)
     res = dbfucs.query(sql)
     jsoncasss = []
     for test in res:
