@@ -82,7 +82,6 @@ def querymodule():
         t_modules\
     LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
     group by t_modules.id;"
-    print(sql)
     res = dbfucs.query(sql)
     response = {}
     response["code"] = 200
@@ -179,7 +178,6 @@ def runmodule():
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
     sql = "SELECT * FROM t_testcass WHERE moduleid in (%s)" % idlist
-    print(sql)
     res = dbfucs.query(sql)
     jsoncasss = []
     for test in res:

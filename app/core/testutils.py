@@ -136,7 +136,7 @@ def get_validata_test(validates):
     return validatelist
 
 
-def insert_test_result(cassid,status,runtime="",result="",validate="", version=-1):
+def insert_test_result(cassid,status="成功",runtime="",result="",validate="", version=-1):
     '''
     将测试结果存入到数据库
     '''
@@ -144,7 +144,6 @@ def insert_test_result(cassid,status,runtime="",result="",validate="", version=-
     sql = "INSERT INTO `t_reports` " \
           "(`cassid`, `status`, `runtime`, `result`, `validate`, `createtime`, `version`) " \
           "VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %d)" % (cassid,status,runtime,result,validate, get_current_time(), version)
-    print(sql)
     dbres = excute(sql)
     if dbres != True:
         Logger.error("保存测试结果到数据库出错，错误信息 --> %s" % dbres)

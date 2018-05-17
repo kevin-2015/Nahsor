@@ -52,14 +52,14 @@ class Runner(object):
                     # Logger.info("测试用例[%s]检查点执行成功,检查点信息为 --> %s" % (testname, validatekey))
                     res = eval(validatekey)
                     if res == True:
-                        status = 0
+                        status = "成功"
                         Logger.info("测试用例[%s]检查点执行成功,检查点信息为 --> %s" % (testname, validatekey))
                     else:
-                        status = 1
+                        status = "失败"
                         Logger.war("测试用例[%s]检查点执行失败,检查点信息为 --> %s" % (testname, validatekey))
 
             insert_test_result(cassid, status, runtime=runtime, result=result, validate=validatekey, version=version)
         except Exception as e:
-            status = 2
+            status = "报错"
             Logger.error("测试用例[%s]在执行过程中出现异常，错误信息为 --> %s" % (testname, e))
-            insert_test_result(cassid,status, version=version)
+            insert_test_result(cassid, status, version=version)
