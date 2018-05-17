@@ -11,12 +11,14 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 17/05/2018 00:49:54
+ Date: 17/05/2018 22:53:52
 */
+
 DROP DATABASE IF EXISTS nahsor;
 CREATE DATABASE nahsor DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
 
 USE nahsor;
+
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -49,12 +51,15 @@ CREATE TABLE `t_modules`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `modules`(`modules`) USING BTREE,
   INDEX `project`(`projectid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_modules
 -- ----------------------------
-INSERT INTO `t_modules` VALUES (1, 1, '测试模块', 'servers里面写的测试的接口', '浪晋', '没有备注', '2018-05-11 05:43:47', '2018-05-11 05:43:47');
+INSERT INTO `t_modules` VALUES (1, 1, 'WEB模块1', 'WEB端测试模块1', '浪晋', '备注', '2018-05-17 21:47:48', '2018-05-17 21:47:48');
+INSERT INTO `t_modules` VALUES (6, 1, 'WEB模块2', 'WEB端测试模块2', 'snake', '备注', '2018-05-17 21:47:52', '2018-05-17 21:47:52');
+INSERT INTO `t_modules` VALUES (7, 6, 'APP模块1', 'APP端测试模块1', 'snake', '备注', '2018-05-17 21:47:52', '2018-05-17 21:47:52');
+INSERT INTO `t_modules` VALUES (8, 6, 'APP模块2', 'APP端测试模块2', 'snake', '备注', '2018-05-17 21:47:52', '2018-05-17 21:47:52');
 
 -- ----------------------------
 -- Table structure for t_product
@@ -93,12 +98,13 @@ CREATE TABLE `t_project`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `project`(`project`) USING BTREE,
   INDEX `product`(`productid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_project
 -- ----------------------------
-INSERT INTO `t_project` VALUES (1, 1, 'Nahsor自动化测试平台WEB端', '功能强大，厉害的不行', '浪晋', '没有备注', '2018-05-11 05:42:30', '2018-05-11 05:42:30');
+INSERT INTO `t_project` VALUES (1, 1, 'WEB项目', 'WEB端', '浪晋', '备注', '2018-05-17 21:48:25', '2018-05-17 21:48:25');
+INSERT INTO `t_project` VALUES (6, 1, 'APP项目', 'APP端', 'snake', '备注', '2018-05-17 21:48:21', '2018-05-17 21:48:21');
 
 -- ----------------------------
 -- Table structure for t_reports
@@ -149,8 +155,12 @@ CREATE TABLE `t_testcass`  (
 -- ----------------------------
 -- Records of t_testcass
 -- ----------------------------
-INSERT INTO `t_testcass` VALUES (1, 1, 'test接口测试用例', 'testcass', '测试输入和输出是否一致', '{\"url\": \"http://127.0.0.1:2333/test\", \"json\": {\"aaa\": \"bbb\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.json()\", \"request[\\\"json\\\"]\"]}, {\"Equal\": [\"r.status_code\", \"200\"]}]', '{}', 'LangJin', '备注信息', '2018-05-11 17:06:52', '2018-05-11 17:06:52');
-INSERT INTO `t_testcass` VALUES (2, 1, '接口测试用例1', 'testsuite', '获取token', '{\"url\": \"http://127.0.0.1:2333/login\", \"json\": {\"password\": \"123456\", \"username\": \"admin\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[{\"token\": \"r.json()[\\\"data\\\"]\"}]', 'LangJin', '备注信息', '2018-05-11 17:06:52', '2018-05-11 17:06:52');
-INSERT INTO `t_testcass` VALUES (3, 1, '接口测试用例2', 'testsuite', '传入token', '{\"url\": \"http://127.0.0.1:2333/chicktoken\", \"json\": {\"token\": \"$token\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[]', 'LangJin', '备注信息', '2018-05-11 17:06:54', '2018-05-11 17:06:54');
+INSERT INTO `t_testcass` VALUES (1, 1, 'WEB模块1的接口测试用例1', 'testcass', '测试输入和输出是否一致', '{\"url\": \"http://127.0.0.1:2333/test\", \"json\": {\"aaa\": \"bbb\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.json()\", \"request[\\\"json\\\"]\"]}, {\"Equal\": [\"r.status_code\", \"200\"]}]', '{}', 'LangJin', '备注信息', '2018-05-17 22:10:44', '2018-05-17 22:10:44');
+INSERT INTO `t_testcass` VALUES (2, 6, 'WEB模块2的接口测试用例1', 'testsuite', '获取token', '{\"url\": \"http://127.0.0.1:2333/login\", \"json\": {\"password\": \"123456\", \"username\": \"admin\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[{\"token\": \"r.json()[\\\"data\\\"]\"}]', 'LangJin', '备注信息', '2018-05-17 22:10:52', '2018-05-17 22:10:52');
+INSERT INTO `t_testcass` VALUES (3, 6, 'WEB模块2的接口测试用例2', 'testsuite', '传入token', '{\"url\": \"http://127.0.0.1:2333/chicktoken\", \"json\": {\"token\": \"$token\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[]', 'LangJin', '备注信息', '2018-05-17 22:10:54', '2018-05-17 22:10:54');
+INSERT INTO `t_testcass` VALUES (4, 7, 'APP模块1的接口测试用例1', 'testsuite', '获取token', '{\"url\": \"http://127.0.0.1:2333/login\", \"json\": {\"password\": \"123456\", \"username\": \"admin\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[{\"token\": \"r.json()[\\\"data\\\"]\"}]', 'LangJin', '备注信息', '2018-05-17 22:10:42', '2018-05-17 22:10:42');
+INSERT INTO `t_testcass` VALUES (5, 7, 'APP模块1的接口测试用例2', 'testsuite', '传入token', '{\"url\": \"http://127.0.0.1:2333/chicktoken\", \"json\": {\"token\": \"$token\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[]', 'LangJin', '备注信息', '2018-05-17 22:10:40', '2018-05-17 22:10:40');
+INSERT INTO `t_testcass` VALUES (6, 8, 'APP模块2的接口测试用例1', 'testsuite', '获取token', '{\"url\": \"http://127.0.0.1:2333/login\", \"json\": {\"password\": \"123456\", \"username\": \"admin\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[{\"token\": \"r.json()[\\\"data\\\"]\"}]', 'LangJin', '备注信息', '2018-05-17 22:08:20', '2018-05-17 22:08:20');
+INSERT INTO `t_testcass` VALUES (7, 8, 'APP模块2的接口测试用例2', 'testsuite', '传入token', '{\"url\": \"http://127.0.0.1:2333/chicktoken\", \"json\": {\"token\": \"$token\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10}', '[{\"Equal\": [\"r.status_code\", \"200\"]}]', '[]', 'LangJin', '备注信息', '2018-05-17 22:08:24', '2018-05-17 22:08:24');
 
 SET FOREIGN_KEY_CHECKS = 1;
