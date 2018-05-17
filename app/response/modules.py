@@ -5,7 +5,7 @@
 __author__ = "Jin"
 from flask import jsonify, request
 from app import bp
-from app.utils import dbfucs
+from app.utils import dbfucs, common
 from app.core import collect
 from app.utils.log import Logger
 Logger = Logger()
@@ -51,7 +51,11 @@ def addmodule():
     explain = dictdata["explain"]
     leader = dictdata["leader"]
     remark = dictdata["remark"]
-    sql = "insert into t_modules values(null,'%s','%s','%s','%s','%s',null,null);" % (projectid,module,explain,leader,remark)
+    sql = "insert into " \
+          "t_modules " \
+          "values(null,'%s','%s','%s','%s','%s','%s',null);" \
+          % (projectid, module, explain, leader, remark, common.get_current_time())
+
     res = dbfucs.excute(sql)
     response = {}
     response["code"] = 200
@@ -155,8 +159,9 @@ def updatamodule():
         `modules` = '%s',\
         `explain` = '%s',\
         `leader` = '%s',\
-        `remark` = '%s'\
-        WHERE (`id` = '%s')" % (projectid,module, explain, leader, remark, pid)
+        `remark` = '%s', \
+        `updatatime` = '%s'\
+        WHERE (`id` = '%s')" % (projectid, module, explain, leader, remark, common.get_current_time(), pid)
     res = dbfucs.excute(sql)
     response = {}
     response["code"] = 200

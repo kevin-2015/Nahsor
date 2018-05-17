@@ -15,7 +15,7 @@ def index():
     后台首页统计图接口
     1. 上次用例执行成功/失败图
     2. 上次用例执行时间分段统计图
-    3. 每个项目的用例统计
+    3. 每个项目的模块统计
     4. 每个模块的用例统计
 
 
@@ -120,7 +120,38 @@ def index():
                 slowly["times"].append(runtime)
 
 
+    """
+        3. 每个项目的模块统计
+        {"modulescount":
+           [{"project1":{}, "modules":[{},{}], "count":1}, 
+           {"project2":{}, "modules":[{},{}]}, "count":1]
+        } 
+    """
+    ## 为什么没有第二个module信息呢
+    modulescount = []
+    sql = "select projectid from t_modules GROUP BY projectid"
+    for results in dbfucs.query(sql):
+        singeitem = {}
+
+        # 统计count和modules
+        id = results.get("projectid")
+        sql = "select * from t_modules where id = %d" % id
+        res = dbfucs.query(sql)
+        if res:
+            singeitem["count"] = len(res)# count
+            singeitem["modules"] = res   # modules
+            projectid = res[0].get("projectid")
+
+            # 统计project
+            sql = "select * from t_project where id = %d" % projectid
+            res = dbfucs.query(sql)
+            if res:
+                singeitem["project"] = res[0]
+
+            modulescount.append(singeitem)
+
     response = {}
     response["testreports"] = last_testreports
-    response["runtimecount"] = {"faster":faster, "fast":fast, "slow":slow, "slowly":slowly}
+    response["runtimecount"] = {"faster": faster, "fast": fast, "slow": slow, "slowly": slowly}
+    response["modulescount"] = modulescount
     return jsonify({"datas": response})
