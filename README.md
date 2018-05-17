@@ -37,6 +37,7 @@
 - 导入postman数据为测试用例
 
 
+
 # 解决navicat 不能执行Sql问题，报错table 'XXXXX' doesn't exist
 恢复步骤： 
 1. 执行net stop mysql,停止mysql服务，删除mysql本地data数据

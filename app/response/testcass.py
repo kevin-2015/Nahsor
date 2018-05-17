@@ -87,18 +87,17 @@ def querytcass():
     编号	名称	所属模块	描述	执行状态	责任人	备注	创建时间
     '''
     sql = "SELECT\
-        t_testcass.id as testid,\
-        (SELECT modules FROM t_modules WHERE id = t_testcass.moduleid) as modulename,\
-        t_testcass.testname,\
-        t_testcass.`explain`,\
-        (select t_reports.`status` from t_reports WHERE id = t_testcass.id order by id DESC limit 1) as `status`,\
-        t_testcass.leader,\
-        t_testcass.remark,\
-        t_testcass.createtime\
-    FROM\
-        t_testcass\
-    LEFT JOIN t_modules ON t_testcass.moduleid = t_modules.id\
-    LEFT JOIN t_reports ON t_reports.cassid = t_testcass.id"
+                t_testcass.id AS testid,\
+                ( SELECT modules FROM t_modules WHERE id = t_testcass.moduleid ) AS modulename,\
+                t_testcass.testname,\
+                t_testcass.`explain`,\
+                ( SELECT t_reports.`status` FROM t_reports WHERE t_reports.cassid = t_testcass.id ORDER BY t_reports.version DESC LIMIT 1 ) AS `status`,\
+                t_testcass.leader,\
+                t_testcass.remark,\
+                t_testcass.createtime \
+          FROM\
+	            t_testcass \
+	      LEFT JOIN t_modules ON t_testcass.moduleid = t_modules.id "
     res = dbfucs.query(sql)
     response = {}
     response["code"] = 200
