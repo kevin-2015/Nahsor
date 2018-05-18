@@ -59,6 +59,7 @@ def queryproduct():
             t_product\
         LEFT JOIN t_project ON t_product.id = t_project.productid\
         LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
+        LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
         group by t_product.id"
     res = dbfucs.query(sql)
     response = {}
