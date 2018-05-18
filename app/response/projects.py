@@ -65,7 +65,7 @@ def queryproject():
         t_project.project,\
         t_project.`explain`,\
         (SELECT COUNT(*) FROM t_modules WHERE t_modules.projectid = t_project.id) AS modulenum,\
-        (SELECT COUNT(*) FROM t_testcass WHERE t_testcass.moduleid = t_modules.id) AS cassnum,\
+        count(t_testcass.id) AS cassnum,\
         t_project.leader,\
         t_project.remark,\
         t_project.createtime,\
@@ -83,14 +83,34 @@ def queryproject():
     return jsonify(response)
 
 
+
 @bp.route("/deleteproject",methods=["POST"])
 def deleteproject():
     '''
-    删除项目,项目下面的模块和用例也会被删除(还没完成)
+    删除项目，项目下面的所有关联的内容都会被删除
     {"pid":1}
     '''
     dictdata = request.get_json()
+    # 查询产品id
     pid = dictdata["pid"]
+
+    # 查询项目id询 模块id 用例id
+    sql = "SELECT\
+                a.id AS moduleid,\
+                b.id AS testcaseid \
+            FROM\
+                t_modules AS a\
+                LEFT JOIN t_testcass AS b ON b.moduleid = a.id \
+            WHERE\
+                a.projectid = %d" % pid
+
+    # 级联删除 case -> module -> project
+    for ids in dbfucs.query(sql):
+        delete_modelus_sql = "delete from t_modules where id = %d" % ids.get("moduleid")
+        delete_testcase_sql = "delete from t_testcass where id = %d" % ids.get("testcaseid")
+        dbfucs.excute(delete_testcase_sql)
+        dbfucs.excute(delete_modelus_sql)
+
     sql = "DELETE FROM `t_project` WHERE (`id`='%s')" % pid
     res = dbfucs.excute(sql)
     response = {}

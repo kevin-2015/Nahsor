@@ -98,11 +98,13 @@ def deletemodule():
     '''
     dictdata = request.get_json()
     pid = dictdata["pid"]
-    sql = "DELETE FROM `t_modules` WHERE (`id`='%s')" % pid
-    res = dbfucs.excute(sql)
+    delete_testcase_sql = "delete from t_testcass where moduleid=%d" % pid
+    delete_modules_sql = "DELETE FROM `t_modules` WHERE (`id`='%s')" % pid
+
     response = {}
     response["code"] = 200
-    response["data"] = res
+    response["data"] = dbfucs.excute(delete_testcase_sql)\
+                            and dbfucs.excute(delete_modules_sql)
     response["msg"] = "删除成功！！！"
     return jsonify(response)
 

@@ -46,21 +46,21 @@ def queryproduct():
     查询产品列表
     '''
     sql = "SELECT\
-            t_product.id as productid,\
-            t_product.product,\
-            t_product.`explain`,\
-            (SELECT COUNT(*) FROM t_project WHERE t_project.productid = t_product.id) AS jectnum,\
-            (SELECT COUNT(*) FROM t_modules WHERE t_modules.projectid = t_project.id) AS modulenum,\
-            t_product.leader,\
-            t_product.remark,\
-            t_product.createtime,\
-            t_product.updatatime\
+                a.id as productid,\
+                a.product,\
+                a.`explain`,\
+                ( SELECT COUNT( * ) FROM t_project WHERE t_project.productid = a.id ) AS jectnum,\
+                count(c.id) as modulenum,\
+                a.leader,\
+                a.remark,\
+                a.createtime,\
+                a.updatatime\
         FROM\
-            t_product\
-        LEFT JOIN t_project ON t_product.id = t_project.productid\
-        LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
-        LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
-        group by t_product.id"
+              t_product AS a\
+        LEFT JOIN t_project as b ON a.id = b.productid\
+        LEFT JOIN t_modules as c ON c.projectid = b.id\
+        GROUP BY\
+              a.id	"
     res = dbfucs.query(sql)
     response = {}
     response["code"] = 200
@@ -72,24 +72,34 @@ def queryproduct():
 @bp.route("/deleteproduct",methods=["POST"])
 def deleteproduct():
     '''
-    删除产品，产品下面的所有关联的内容都会被删除(还没完成)
+    删除产品，产品下面的所有关联的内容都会被删除
     {"pid":1}
     '''
     dictdata = request.get_json()
     # 查询产品id
     pid = dictdata["pid"]
-    # # 查询项目id
-    # project_ids = "select id from t_project where productid=%d" % pid
-    # result = dbfucs.query(project_ids)
-    #
-    # module_ids = []
-    # for r in result:
-    #     module_ids.append(r.get("id"))
-    # print(module_ids)
-    # return ""
-    # 查询模块id
-    # 查询用例id
-    sql = 'select '
+
+    # 查询项目id询 模块id 用例id
+    sql = "SELECT\
+                a.id AS projectid,\
+                b.id AS moduleid,\
+                c.id AS testcaseid \
+            FROM\
+                t_project AS a\
+                LEFT JOIN t_modules AS b ON a.id = b.projectid\
+                LEFT JOIN t_testcass AS c ON c.moduleid = b.id\
+            WHERE\
+	            a.productid = %d" % pid
+
+    # 级联删除 case -> module -> project -> product
+    for ids in dbfucs.query(sql):
+        delete_modelus_sql = "delete from t_modules where id = %d" % ids.get("moduleid")
+        delete_testcase_sql = "delete from t_testcass where id = %d" % ids.get("testcaseid")
+        delete_project_sql = "delete from t_project where id = %d" % ids.get("projectid")
+        dbfucs.excute(delete_testcase_sql)
+        dbfucs.excute(delete_modelus_sql)
+        dbfucs.excute(delete_project_sql)
+
     sql = "DELETE FROM `t_product` WHERE (`id`='%s')" % pid
     res = dbfucs.excute(sql)
     response = {}
