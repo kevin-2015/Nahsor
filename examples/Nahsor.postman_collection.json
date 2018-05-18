@@ -1,737 +1,471 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "cc0eb0a2-750b-4dbe-a9c1-82352f505531",
 		"name": "Nahsor",
-		"_postman_id": "c83dcc12-20d8-86ea-6d38-3d86e22c1c78",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "产品管理",
-			"item": [
-				{
-					"name": "addproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"product\":\"Nahsor自动化测试平台\",\r\n        \"explain\":\"一个接口自动化测试平台，功能强大，很厉害就是了。\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"这是例子\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/addproduct"
-					},
-					"response": []
+			"name": "http://127.0.0.1:8808/querytcass",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"1,2,3\"}"
 				},
-				{
-					"name": "deleteproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":3}"
-						},
-						"url": "http://127.0.0.1:8808/deleteproduct"
-					},
-					"response": []
-				},
-				{
-					"name": "queryproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": "http://127.0.0.1:8808/queryproduct"
-					},
-					"response": []
-				},
-				{
-					"name": "readproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":1}"
-						},
-						"url": "http://127.0.0.1:8808/readproduct"
-					},
-					"response": []
-				},
-				{
-					"name": "updataproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"pid\":5,\r\n        \"product\":\"Nahsor自动化测试平台\",\r\n        \"explain\":\"一个接口自动化测试平台，功能强大，很厉害就是了\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"这是例子\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/updataproduct"
-					},
-					"response": []
-				},
-				{
-					"name": "runproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"idlist\":\"5\"}"
-						},
-						"url": "http://127.0.0.1:8808/runproduct"
-					},
-					"response": []
-				}
-			]
+				"url": "http://127.0.0.1:8808/querytcass"
+			},
+			"response": []
 		},
 		{
-			"name": "项目管理",
-			"item": [
-				{
-					"name": "getproduct",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"product\":\"Nahsor自动化测试平台\",\r\n        \"explain\":\"一个接口自动化测试平台，功能强大，很厉害就是了。\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"这是例子\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/getproduct"
-					},
-					"response": []
+			"name": "http://127.0.0.1:8808/addtcass",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"request\": \"{\\\"url\\\": \\\"http://127.0.0.1:2333/test\\\", \\\"json\\\": {\\\"aaa\\\": \\\"bbb\\\"}, \\\"method\\\": \\\"POST\\\", \\\"headers\\\": {\\\"Content-Type\\\": \\\"application/json\\\"}, \\\"timeout\\\": 10}\",\n    \"testname\": \"用例99\",\n    \"testtype\": \"testcass\",\n    \"validate\": \"[{\\\"Equal\\\": [\\\"r.json()\\\",\\\"request[\\\\\\\\\\\"json\\\\\\\\\\\"]\\\"]},{\\\"Equal\\\": [\\\"r.status_code\\\",\\\"200\\\"]}]\"\n}"
 				},
-				{
-					"name": "addproject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"productid\":\"1\",\r\n        \"project\":\"Nahsor自动化测试平台WEB端\",\r\n        \"explain\":\"功能强大，厉害的不行\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"没有备注\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/addproject"
-					},
-					"response": []
-				},
-				{
-					"name": "queryproject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"productid\":\"5\",\r\n        \"project\":\"Nahsor自动化测试平台WEB端\",\r\n        \"explain\":\"功能强大，厉害的不行\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"没有备注\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/queryproject"
-					},
-					"response": []
-				},
-				{
-					"name": "deleteproject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":3}"
-						},
-						"url": "http://127.0.0.1:8808/deleteproject"
-					},
-					"response": []
-				},
-				{
-					"name": "readproject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":5}"
-						},
-						"url": "http://127.0.0.1:8808/readproject"
-					},
-					"response": []
-				},
-				{
-					"name": "updataproject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":5}"
-						},
-						"url": "http://127.0.0.1:8808/readproject"
-					},
-					"response": []
-				},
-				{
-					"name": "runproject",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"type": "text/javascript",
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									""
-								]
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"idlist\":5}"
-						},
-						"url": "http://127.0.0.1:8808/runproject"
-					},
-					"response": []
-				}
-			]
+				"url": "http://127.0.0.1:8808/addtcass"
+			},
+			"response": []
 		},
 		{
-			"name": "模块管理",
-			"item": [
-				{
-					"name": "http://127.0.0.1:8808/getproject",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": "http://127.0.0.1:8808/getproject",
-						"description": ""
-					},
-					"response": []
+			"name": "http://127.0.0.1:8808/testgo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"42\"}"
 				},
-				{
-					"name": "http://127.0.0.1:8808/addmodule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"projectid\":\"1\",\r\n        \"module\":\"测试模块\",\r\n        \"explain\":\"servers里面写的测试的接口\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"没有备注\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/addmodule",
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "http://127.0.0.1:8808/querymodule",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": "http://127.0.0.1:8808/querymodule",
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "http://127.0.0.1:8808/deletemodule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":5}"
-						},
-						"url": "http://127.0.0.1:8808/deletemodule",
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "http://127.0.0.1:8808/readmodule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":3}"
-						},
-						"url": "http://127.0.0.1:8808/readmodule",
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "http://127.0.0.1:8808/updatamodule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n    \t\"pid\":4,\r\n        \"projectid\":2,\r\n        \"module\":\"产品名称\",\r\n        \"explain\":\"描述\",\r\n        \"leader\":\"责任人\",\r\n        \"remark\":\"备注\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/updatamodule",
-						"description": ""
-					},
-					"response": []
-				},
-				{
-					"name": "http://127.0.0.1:8808/runmodule",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"idlist\":\"1,2\"}"
-						},
-						"url": "http://127.0.0.1:8808/runmodule",
-						"description": ""
-					},
-					"response": []
-				}
-			]
+				"url": "http://127.0.0.1:8808/testgo"
+			},
+			"response": []
 		},
 		{
-			"name": "用例管理",
-			"item": [
-				{
-					"name": "http://127.0.0.1:8808/getmodules",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": "http://127.0.0.1:8808/getmodules",
-						"description": ""
-					},
-					"response": []
+			"name": "localhost:8808/runtests",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"2,3\"}"
 				},
-				{
-					"name": "http://127.0.0.1:8808/addtcass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"moduleid\":1,\n\t\"testname\":\"接口测试用例2\",\n\t\"testtype\":\"testsuite\",\n\t\"explain\":\"传入token\",\n\t\"request\":{\"url\": \"http://127.0.0.1:2333/chicktoken\", \"json\": {\"token\": \"$token\"}, \"method\": \"POST\", \"headers\": {\"Content-Type\": \"application/json\"}, \"timeout\": 10},\n\t\"validate\":[{\"Equal\": [\"r.status_code\", \"200\"]}],\n\t\"extract\":[],\n\t\"leader\":\"LangJin\",\n\t\"remark\":\"备注信息\"\n}"
-						},
-						"url": "http://127.0.0.1:8808/addtcass",
-						"description": ""
-					},
-					"response": []
+				"url": "http://127.0.0.1:8808/runtests"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/runproduct",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"1,2\"}"
 				},
-				{
-					"name": "http://127.0.0.1:8808/querytcass",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\t\"moduleid\":1,\n\t\"testname\":\"测试用例名称\",\n\t\"testtype\":\"testcass\",\n\t\"explain\":\"用例描述\",\n\t\"request\":{},\n\t\"validate\":[],\n\t\"extract\":[],\n\t\"leader\":\"LangJin\",\n\t\"remark\":\"备注信息\"\n}"
-						},
-						"url": "http://127.0.0.1:8808/querytcass",
-						"description": ""
-					},
-					"response": []
+				"url": "http://127.0.0.1:8808/runproduct"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/index"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/addproject",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"pid\":5,\r\n        \"productid\":5,\r\n        \"project\":\"Nahsor自动化测试平台WEB端\",\r\n        \"explain\":\"功能强大，厉害的不行11\",\r\n        \"leader\":\"浪晋\",\r\n        \"remark\":\"备注\"\r\n    }"
 				},
-				{
-					"name": "http://127.0.0.1:8808/getcassres",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":1}"
-						},
-						"url": "http://127.0.0.1:8808/getcassres",
-						"description": ""
-					},
-					"response": []
+				"url": "http://127.0.0.1:8808/updataproject"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/getproduct",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/getproduct"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/queryproject",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/queryproject"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/deleteproject",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":6}\r\n"
 				},
-				{
-					"name": "http://127.0.0.1:8808/deletecass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":1}"
-						},
-						"url": "http://127.0.0.1:8808/deletecass",
-						"description": ""
-					},
-					"response": []
+				"url": "http://127.0.0.1:8808/deleteproject"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/readproject",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":1}"
 				},
-				{
-					"name": "http://127.0.0.1:8808/readcass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"pid\":2}"
-						},
-						"url": "http://127.0.0.1:8808/readcass",
-						"description": ""
-					},
-					"response": []
+				"url": "http://127.0.0.1:8808/readproject"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/runproject",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"1,2\"}"
 				},
-				{
-					"name": "http://127.0.0.1:8808/updatacass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"pid\":9,\r\n        \"moduleid\":1,\r\n        \"testname\":\"测试用例名称\",\r\n        \"testtype\":\"testcass\",\r\n        \"explain\":\"用例描述\",\r\n        \"request\":{},\r\n        \"validate\":[],\r\n        \"extract\":[],\r\n        \"leader\":\"LangJin\",\r\n        \"remark\":\"备注信息\"\r\n    }"
-						},
-						"url": "http://127.0.0.1:8808/updatacass",
-						"description": ""
-					},
-					"response": []
+				"url": "http://127.0.0.1:8808/runproject"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/addmodule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"projectid\":\"1\",\r\n        \"module\":\"测试模块1\",\r\n        \"explain\":\"test\",\r\n        \"leader\":\"snake\",\r\n        \"remark\":\"备注\"\r\n    }"
 				},
-				{
-					"name": "http://127.0.0.1:8808/runtests",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"idlist\":\"9,10\"}"
-						},
-						"url": "http://127.0.0.1:8808/runtests",
-						"description": ""
-					},
-					"response": []
-				}
-			]
+				"url": "http://127.0.0.1:8808/addmodule"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/getproject",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/getproject"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/querymodule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/querymodule"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/deletemodule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":6}"
+				},
+				"url": "http://127.0.0.1:8808/deletemodule"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/readmodule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":1}"
+				},
+				"url": "http://127.0.0.1:8808/readmodule"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/updatamodule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n      \"pid\":8,\r\n        \"projectid\":2,\r\n        \"module\":\"模块sss名称\",\r\n        \"explain\":\"描述\",\r\n        \"leader\":\"责任人\",\r\n        \"remark\":\"备注\"\r\n    }"
+				},
+				"url": "http://127.0.0.1:8808/updatamodule"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/runmodule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"1\"}"
+				},
+				"url": "http://127.0.0.1:8808/runmodule"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/addtcass",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"moduleid\":1,\r\n        \"testname\":\"测试用例名称\",\r\n        \"testtype\":\"testcass\",\r\n        \"explain\":\"用例描述\",\r\n        \"request\":{},\r\n        \"validate\":[],\r\n        \"extract\":[],\r\n        \"leader\":\"LangJin\",\r\n        \"remark\":\"备注信息\"\r\n    }"
+				},
+				"url": "http://127.0.0.1:8808/addtcass"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/querytcass",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/querytcass"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/querytcass",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/querytcass"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/getcassres",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":1}"
+				},
+				"url": "http://127.0.0.1:8808/getcassres"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/runtests",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"idlist\":\"1,2\"}"
+				},
+				"url": "http://127.0.0.1:8808/runtests"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/deletecass",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":1}"
+				},
+				"url": "http://127.0.0.1:8808/deletecass"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/index"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/testcasscount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/testcasscount"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/modulescount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/modulescount"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/runtimecount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/runtimecount"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/testreportscount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": "http://127.0.0.1:8808/testreportscount"
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8808/deleteproduct",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"pid\":11}"
+				},
+				"url": "http://127.0.0.1:8808/deleteproduct"
+			},
+			"response": []
 		}
 	]
 }
