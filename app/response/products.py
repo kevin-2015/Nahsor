@@ -59,7 +59,6 @@ def queryproduct():
             t_product\
         LEFT JOIN t_project ON t_product.id = t_project.productid\
         LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
-        LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
         group by t_product.id"
     res = dbfucs.query(sql)
     response = {}
@@ -87,8 +86,8 @@ def deleteproduct():
     #     module_ids.append(r.get("id"))
     # print(module_ids)
     # return ""
-    # # 查询模块id
-    # # 查询用例id
+    # 查询模块id
+    # 查询用例id
     sql = 'select '
     sql = "DELETE FROM `t_product` WHERE (`id`='%s')" % pid
     res = dbfucs.excute(sql)
