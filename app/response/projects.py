@@ -62,6 +62,7 @@ def queryproject():
     '''
     sql = "SELECT\
         t_project.id as projectid,\
+        t_project.productid,\
         t_project.project,\
         t_project.`explain`,\
         (SELECT COUNT(*) FROM t_modules WHERE t_modules.projectid = t_project.id) AS modulenum,\
