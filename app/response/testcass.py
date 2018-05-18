@@ -114,7 +114,7 @@ def getcassres():
     '''
     dictdata = request.get_json()
     pid = dictdata["pid"]
-    sql = "select result from t_reports WHERE cassid = %s order by id DESC limit 1" % pid
+    sql = "select * from t_reports WHERE cassid = %d order by version DESC limit 1" % pid
     res = dbfucs.query(sql)
     response = {}
     response["code"] = 200
