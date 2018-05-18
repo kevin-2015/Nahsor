@@ -31,6 +31,7 @@ def addproduct():
     sql = "insert into t_product " \
           "values(null,'%s','%s','%s','%s','%s',null);" \
           % (product,explain,leader,remark, now)
+    print(sql)
     res = dbfucs.excute(sql)
     response = {}
     response["code"] = 200
@@ -58,7 +59,7 @@ def queryproduct():
             t_product\
         LEFT JOIN t_project ON t_product.id = t_project.productid\
         LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
-        -- LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
+        LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
         group by t_product.id"
     res = dbfucs.query(sql)
     response = {}
@@ -75,7 +76,20 @@ def deleteproduct():
     {"pid":1}
     '''
     dictdata = request.get_json()
+    # 查询产品id
     pid = dictdata["pid"]
+    # # 查询项目id
+    # project_ids = "select id from t_project where productid=%d" % pid
+    # result = dbfucs.query(project_ids)
+    #
+    # module_ids = []
+    # for r in result:
+    #     module_ids.append(r.get("id"))
+    # print(module_ids)
+    # return ""
+    # # 查询模块id
+    # # 查询用例id
+    sql = 'select '
     sql = "DELETE FROM `t_product` WHERE (`id`='%s')" % pid
     res = dbfucs.excute(sql)
     response = {}
@@ -151,13 +165,14 @@ def runproduct():
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
     sql = "SELECT\
-        t_testcass.id\
+        t_testcass.*\
     FROM\
         t_product\
     LEFT JOIN t_project ON t_product.id = t_project.productid\
     LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
     LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
     WHERE t_product.id in (%s);" % idlist
+    print(sql)
     res = dbfucs.query(sql)
     jsoncasss = []
     for test in res:
