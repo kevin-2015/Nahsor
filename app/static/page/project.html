@@ -126,7 +126,22 @@
             $(input[4]).val(text);
 
         });
-
+        //运行
+        $(".content").on("click",".implement",function(){
+            let Pid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"idlist":[Pid]});
+            
+            $.ajax({
+                "url"       : interfaceUrl.runproject,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
+        });
         //删除
         $(".content").on("click",".delete",function(){
             let deletePid = $(this).parents("tr").find("td").eq(0).text();
