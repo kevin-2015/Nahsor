@@ -175,14 +175,28 @@ def runproduct():
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
     sql = "SELECT\
-        t_testcass.*\
+        t_testcass.id\
     FROM\
         t_product\
     LEFT JOIN t_project ON t_product.id = t_project.productid\
     LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
     LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
     WHERE t_product.id in (%s);" % idlist
-    print(sql)
+    # print(sql)
+    res = dbfucs.query(sql)
+    # print(res)
+    if len(res) == 0:
+        response = {}
+        response["code"] = 200
+        response["msg"] = "没有可用用例执行"
+        return jsonify(response)
+    idlist = []
+    for i in res:
+        idlist.append(i['id'])
+    ids = ''
+    for i in idlist:
+        ids += str(i) + ","
+    sql = "select id,testname,testtype,request,validate,extract from t_testcass where id in(%s);" % ids[:-1]
     res = dbfucs.query(sql)
     jsoncasss = []
     for test in res:

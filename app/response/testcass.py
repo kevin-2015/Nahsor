@@ -217,10 +217,13 @@ def updatacass():
 
 @bp.route("/runtests", methods=["POST"])
 def runtests():
-    '''{"idlist":"1,2"}'''
+    '''{"idlist":[1,2]}'''
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
-    sql = "select id,testname,testtype,request,validate,extract from t_testcass where id in(%s);" % idlist
+    ids = ''
+    for i in idlist:
+        ids += str(i) + ","
+    sql = "select id,testname,testtype,request,validate,extract from t_testcass where id in(%s);" % ids[:-1]
     res = dbfucs.query(sql)
     jsoncasss = []
     for test in res:
