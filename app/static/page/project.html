@@ -27,10 +27,9 @@
             
             $.get(interfaceUrl.queryproject,function(data){
                 if(data&&data.code == 200){
-                    // debugger;
                     $(".page3 .table tbody").html("");
-
                     for(let i of data.data){
+                        let productid = i.productid;
                         let cassnum = i.cassnum;
                         let createtime = i.createtime;
                         let explain = i.explain;
@@ -40,7 +39,7 @@
                         let remark = i.remark;
                         let projectid = i.projectid;
                         let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
-                        let tr = $("<tr><td>"+projectid+"</td><td>"+project+"</td><td>"+explain+"</td><td>"+modulenum+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>");
+                        let tr = $("<tr productid='"+productid+"'><td>"+projectid+"</td><td>"+project+"</td><td>"+explain+"</td><td>"+modulenum+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>");
 
                         $(".page3 .table tbody").append(tr);
                     }
@@ -53,7 +52,7 @@
         let table = {
             "alertTab"   : $('<form class="form-horizontal" role="form"></form>'),
             "proId"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
-            "projectName": $('<div class="form-group"><label class="col-sm-2 control-label" for="name">项目名称</label><div class="col-sm-10"><input class="product form-control" id="focusedInput" type="text" placeholder="请输入项目名称"></div></div>'),
+            "projectName": $('<div class="form-group"><label class="col-sm-2 control-label" for="name">项目名称</label><div class="col-sm-10"><input class="project form-control" id="focusedInput" type="text" placeholder="请输入项目名称"></div></div>'),
             "proInfo"    : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">描述</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入项目描述"></div></div>'),
             "proLeader"  : $('<div class="form-group"><label class="col-sm-2 control-label" for="leader">责任人</label><div class="col-sm-10"><input class="leader form-control" id="focusedInput" type="text" placeholder="请输入责任人"></div></div>'),
             "proText"    : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">备注</label><div class="col-sm-10"><input class="remark form-control" id="focusedInput" type="text" placeholder="请输入备注"></div></div>')
@@ -72,6 +71,7 @@
             table.alertTab.append(table.proId,table.projectName,table.proInfo,table.proLeader,table.proText);
 
             $.get(interfaceUrl.getproduct,function(data){
+               table.proId.find("ul").html("");
                for(let i of data.data){
                    table.proId.find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
                }
@@ -85,13 +85,14 @@
         });
                 
         $(".alertBox").on("click",".proId li",function(event){
-            $(".selectText").val($(event.target).text()).attr("typeid",$(event.target).attr("id"));
+            $(".selectText").val($(event.target).text()).attr("productid",$(event.target).attr("id"));
         });
 
 
         $(".content").on("click",".modify",function(){          //修改
             let thisLine = $(this).parents("tr").find("td");
-
+            
+            let productid = $(this).parents("tr").attr("productid");
             let pid = $(thisLine[0]).text();
             let name = $(thisLine[1]).text();
             let info = $(thisLine[2]).text();
@@ -106,14 +107,25 @@
 
             $(".alertBody").append(table.alertTab);
             table.alertTab.append(table.proId,table.projectName,table.proInfo,table.proLeader,table.proText);
-
+            
             let input = table.alertTab.find("input");
+            
+            $.get(interfaceUrl.getproduct,function(data){
+               table.proId.find("ul").html("");
+               for(let i of data.data){
+                   table.proId.find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
+                   if(productid == (i.id+"")){
+                       $(input[0]).val(i.product).attr("productid",productid);
+                   }
+               }
+            });
+            
             $(input[1]).val(name);
             $(input[2]).val(info);
             $(input[3]).val(leader);
             $(input[4]).val(text);
 
-        })
+        });
 
         //删除
         $(".content").on("click",".delete",function(){
@@ -141,12 +153,13 @@
         //点击确定
         $(".mask").on("click",".sure",function(){
             if($(".alertBox").hasClass("add") == true){
-                let product = $(".product").val();
+                let productid = $(".selectText").attr("productid");
+                let project = $(".project").val();
                 let explain = $(".explain").val();
                 let leader = $(".leader").val();
                 let remark = $(".remark").val();
 
-                let datas = JSON.stringify({"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
+                let datas = JSON.stringify({"productid" : productid,"project" : project,"explain"  : explain,"leader"  : leader,"remark"  : remark});
 
                 $.ajax({
                     "url"       : interfaceUrl.addproject,
@@ -162,12 +175,13 @@
                 $(".alertBox").removeClass("add");
             }else if($(".alertBox").hasClass("modify") == true){
                 let pid = $(".alertHeader span").eq(1).text();
-                let product = $(".product").val();
+                let productid = $(".selectText").attr("productid");
+                let project = $(".project").val();
                 let explain = $(".explain").val();
                 let leader = $(".leader").val();
                 let remark = $(".remark").val();
 
-                datas = JSON.stringify({"pid": pid,"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
+                datas = JSON.stringify({"pid": pid,"productid" : productid,"project" : project,"explain"  : explain,"leader"  : leader,"remark"  : remark});
 
                 $.ajax({
                     "url"       : interfaceUrl.updataproject,
@@ -185,7 +199,7 @@
 
 
 
-
+            $(".selectText").attr("productid","");
             $(".mask").addClass("hidden").removeClass("show");
 
         });
