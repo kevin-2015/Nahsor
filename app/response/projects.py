@@ -103,7 +103,7 @@ def deleteproject():
                 t_modules AS a\
                 LEFT JOIN t_testcass AS b ON b.moduleid = a.id \
             WHERE\
-                a.projectid = %d" % pid
+                a.projectid = %s" % pid
 
     # 级联删除 case -> module -> project
     for ids in dbfucs.query(sql):

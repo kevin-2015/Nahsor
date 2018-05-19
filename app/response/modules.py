@@ -98,7 +98,7 @@ def deletemodule():
     '''
     dictdata = request.get_json()
     pid = dictdata["pid"]
-    delete_testcase_sql = "delete from t_testcass where moduleid=%d" % pid
+    delete_testcase_sql = "delete from t_testcass where moduleid=%s" % pid
     delete_modules_sql = "DELETE FROM `t_modules` WHERE (`id`='%s')" % pid
 
     response = {}
