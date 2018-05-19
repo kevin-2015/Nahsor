@@ -71,7 +71,7 @@
             $(".alertBody").append(table.alertTab);
             table.alertTab.append(table.proId,table.projectName,table.proInfo,table.proLeader,table.proText);
 
-            $.get(interfaceUrl.addproject,function(data){
+            $.get(interfaceUrl.getproduct,function(data){
                for(let i of data.data){
                    table.proId.find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
                }
