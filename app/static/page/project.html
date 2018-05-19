@@ -27,7 +27,7 @@
             
             $.get(interfaceUrl.queryproject,function(data){
                 if(data&&data.code == 200){
-                    debugger;
+                    // debugger;
                     $(".page3 .table tbody").html("");
 
                     for(let i of data.data){
@@ -71,7 +71,7 @@
             $(".alertBody").append(table.alertTab);
             table.alertTab.append(table.proId,table.projectName,table.proInfo,table.proLeader,table.proText);
 
-            $.get(interfaceUrl.getproduct,function(data){
+            $.get(interfaceUrl.addproject,function(data){
                for(let i of data.data){
                    table.proId.find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
                }
@@ -121,7 +121,7 @@
             let datas = JSON.stringify({"pid":deletePid});
 
             $.ajax({
-                "url"       : interfaceUrl.deleteproduct,
+                "url"       : interfaceUrl.deleteproject,
                 "type"      : "post",
                 "headers"   : {"Content-Type":"application/json"},
                 "data"      : datas,
@@ -149,7 +149,7 @@
                 let datas = JSON.stringify({"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
 
                 $.ajax({
-                    "url"       : interfaceUrl.addproduct,
+                    "url"       : interfaceUrl.addproject,
                     "type"      : "post",
                     "headers"   : {"Content-Type":"application/json"},
                     "data"      : datas,
@@ -170,7 +170,7 @@
                 datas = JSON.stringify({"pid": pid,"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
 
                 $.ajax({
-                    "url"       : interfaceUrl.updataproduct,
+                    "url"       : interfaceUrl.updataproject,
                     "type"      : "post",
                     "headers"   : {"Content-Type":"application/json"},
                     "data"      : datas,
