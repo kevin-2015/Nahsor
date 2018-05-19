@@ -191,14 +191,32 @@ def runproject():
     '''
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
+    ids = ''
+    for i in idlist:
+        ids += str(i) + ","
     sql = "SELECT\
         t_testcass.*\
     FROM\
         t_project\
     LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
     LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
-    WHERE t_project.id in (%s)" % idlist
+    WHERE t_project.id in (%s)" % ids[:-1]
     res = dbfucs.query(sql)
+
+    if len(res) == 0:
+        response = {}
+        response["code"] = 200
+        response["msg"] = "没有可用用例执行"
+        return jsonify(response)
+    idlist = []
+    for i in res:
+        idlist.append(i['id'])
+    ids = ''
+    for i in idlist:
+        ids += str(i) + ","
+    sql = "select id,testname,testtype,request,validate,extract from t_testcass where id in(%s);" % ids[:-1]
+    res = dbfucs.query(sql)
+
     jsoncasss = []
     for test in res:
         jsoncasss.append(test)

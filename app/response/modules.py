@@ -179,8 +179,16 @@ def runmodule():
     '''
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
-    sql = "SELECT * FROM t_testcass WHERE moduleid in (%s)" % idlist
+    ids = ''
+    for i in idlist:
+        ids += str(i) + ","
+    sql = "SELECT * FROM t_testcass WHERE moduleid in (%s)" % ids[:-1]
     res = dbfucs.query(sql)
+    if len(res) == 0:
+        response = {}
+        response["code"] = 200
+        response["msg"] = "没有可用用例执行"
+        return jsonify(response)
     jsoncasss = []
     for test in res:
         jsoncasss.append(test)

@@ -174,6 +174,9 @@ def runproduct():
     '''
     dictdata = request.get_json()
     idlist = dictdata["idlist"]
+    ids = ''
+    for i in idlist:
+        ids += str(i) + ","
     sql = "SELECT\
         t_testcass.id\
     FROM\
@@ -181,7 +184,7 @@ def runproduct():
     LEFT JOIN t_project ON t_product.id = t_project.productid\
     LEFT JOIN t_modules ON t_project.id = t_modules.projectid\
     LEFT JOIN t_testcass ON t_modules.id = t_testcass.moduleid\
-    WHERE t_product.id in (%s);" % idlist
+    WHERE t_product.id in (%s);" % ids[:-1]
     # print(sql)
     res = dbfucs.query(sql)
     # print(res)
