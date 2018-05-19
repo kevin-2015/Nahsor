@@ -211,5 +211,5 @@ def runproduct():
     Logger.info("*" * 90)
     response = {}
     response["code"] = 200
-    response["msg"] = "成功！！！"
+    response["msg"] = "共计[%d]条测试用例执行完成！" % len(jsoncasss)
     return jsonify(response)
