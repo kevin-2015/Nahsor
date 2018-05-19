@@ -47,9 +47,9 @@ def _get_last_test_results():
 
     # 获取上次执行的测试用例
     success_sql = "select * from t_reports where version in" \
-                  " (select max(version) as version from t_reports) and status=0"
+                  " (select max(version) as version from t_reports) and status='成功'"
     failed_sql = "select * from t_reports where version in" \
-                 " (select max(version) as version from t_reports) and status!=0"
+                 " (select max(version) as version from t_reports) and status!='成功'"
     success_results = dbfucs.query(success_sql)
     failed_results = dbfucs.query(failed_sql)
 
@@ -95,9 +95,9 @@ def _get_last_test_result_runtime():
     faster["count"], fast["count"], slow["count"], slowly["count"] = 0, 0, 0, 0
     faster["times"], fast["times"], slow["times"], slowly["times"], = [], [], [], []
     success_sql = "select * from t_reports where version in" \
-                  " (select max(version) as version from t_reports) and status=0"
+                  " (select max(version) as version from t_reports) and status='成功'"
     failed_sql = "select * from t_reports where version in" \
-                 " (select max(version) as version from t_reports) and status!=0"
+                 " (select max(version) as version from t_reports) and status!='成功'"
     success_results = dbfucs.query(success_sql)
     failed_results = dbfucs.query(failed_sql)
     for result in (success_results, failed_results):

@@ -89,7 +89,7 @@ def deleteproduct():
                 LEFT JOIN t_modules AS b ON a.id = b.projectid\
                 LEFT JOIN t_testcass AS c ON c.moduleid = b.id\
             WHERE\
-	            a.productid = %d" % pid
+	            a.productid = %s" % pid
 
     # 级联删除 case -> module -> project -> product
     for ids in dbfucs.query(sql):
