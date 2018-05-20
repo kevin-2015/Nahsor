@@ -52,7 +52,7 @@ def _get_test_results(**kwargs):
     return dbfucs.query(success_sql), dbfucs.query(failed_sql), dbfucs.query(all_sql)
 
 
-@bp.route("/conditionsqueryreports", methods=['post'])
+@bp.route("/conditionqueryreports", methods=['post'])
 def conditionsqueryreports():
     """
     获取根据版本获取用例执行结果
