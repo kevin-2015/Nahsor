@@ -14,7 +14,7 @@ html,body{
 .mask .alertBox{
     position: absolute;
     width: 600px;
-    height: 800px;
+    height: 600px;
     background: #FFF;
     left: 35%;
     top: 6%;
@@ -32,7 +32,7 @@ html,body{
     text-indent: 40px;
 }
 .mask .alertBox .alertBody{
-    height:  84%;
+    height:  85%;
     width: 96%;
     padding: 2%;
 }

@@ -1,7 +1,29 @@
-<div class="content page2">
+<div class="content page4">
     <div class="projectManager table-responsive">
         <table class="table table-bordered">
-            <caption></caption>
+            <caption>
+                <div class="add btn-group btn-group-sm">
+                    <ul class="nav nav-tabs">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                请选择产品<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Swing</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                请选择项目<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Swing</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-default" style="margin-top: -35px;margin-left: 245px;">新增</button>
+                </div>
+            </caption>
             <thead>
                 <tr>
                     <th>编号</th>
@@ -21,26 +43,161 @@
     </div>
 </div>
 <script>
-    (function page2Init(){
-        $.get(interfaceUrl.modules,function(data){
-            // debugger;
-            if(data&&data.code == 200){
-                for(let i of data.data){
-                    let cassnum = i.cassnum;
-                    let createtime = i.createtime;
-                    let explain = i.explain;
-                    let moduleid = i.moduleid;
-                    let modules = i.modules;
-                    let leader = i.leader;
-                    let remark = i.remark;
-                    let tableBtn = '<button class="btn btn-link btn-sm">执行</button><button class="btn btn-link btn-sm">修改</button><button class="btn btn-link btn-sm">删除</button>'; 
-                    let tr = $("<tr><td>"+moduleid+"</td><td>"+modules+"</td><td>"+explain+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
-                    
-                    $(".page2 .table tbody").append(tr);
+    (function page4Init(){
+        function pageInit(){
+            $.get(interfaceUrl.modules,function(data){
+                if(data&&data.code == 200){
+                    for(let i of data.data){
+                        let cassnum = i.cassnum;
+                        let createtime = i.createtime;
+                        let explain = i.explain;
+                        let moduleid = i.moduleid;
+                        let modules = i.modules;
+                        let leader = i.leader;
+                        let remark = i.remark;
+                        let tableBtn = '<button class="btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
+                        let tr = $("<tr><td>"+moduleid+"</td><td>"+modules+"</td><td>"+explain+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
+
+                        $(".page4 .table tbody").append(tr);
+                    }
                 }
-            }
+            });
+        };
+        
+        $.get(interfaceUrl.getproject,function(data){
+            
         });
         
+        pageInit();
+        
+        
+        let table = {
+            "alertTab"  : $('<form class="form-horizontal" role="form"></form>'),
+            
+            "proName"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            
+            "project"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属项目</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            
+            "projectName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">项目名称</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
+            
+            "proInfo"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">描述</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
+            
+            "proLeader" : $('<div class="form-group"><label class="col-sm-2 control-label" for="leader">责任人</label><div class="col-sm-10"><input class="leader form-control" id="focusedInput" type="text" placeholder="请输入责任人"></div></div>'),
+            
+            "proText"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">备注</label><div class="col-sm-10"><input class="remark form-control" id="focusedInput" type="text" placeholder="请输入备注"></div></div>')
+        };
+        
+        //新增
+        $(".page4 .add button").on("click",function(){
+            $(".mask").addClass("show").removeClass("hidden");
+            $(".alertBox").addClass("add");
+            $(".alertHeader span").eq(0).text("新增");
+            $(".alertBody").html("");
+            
+            let inputData = table.alertTab.find("input");
+            
+            $(".alertBody").append(table.alertTab);
+            table.alertTab.append(table.proName,table.project,table.projectName,table.proInfo,table.proLeader,table.proText);
+            
+            $.get(interfaceUrl.getproduct,function(data){
+                for(let i of data.data){
+                    $(table.proName).find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
+                }
+            });
+            
+            if(inputData.length>0){
+                for(let i =0;i < inputData.length;i++){
+                    $(inputData[i]).val("");
+                }
+            }
+            
+        });
+        
+        $(".alertBox").on("click",".proId li",function(event){
+            $(".selectText").eq(0).val($(event.target).text()).attr("productid",$(event.target).attr("id"));
+            
+            let pid = $(event.target).attr("id");
+            
+            $.get(interfaceUrl.getproject,function(data){
+                debugger;
+            });
+        });
+        
+        
+        //修改
+        $(".page4").on("click",".modify",function(){
+            
+            $(".mask").addClass("show").removeClass("hidden");
+            $(".alertBox").addClass("modify");
+            $(".alertHeader span").eq(0).text("修改-编号:");
+//            $(".alertHeader span").eq(1).text(pid);
+            $(".alertBody").html("");
+            
+        });
+        
+        //删除
+        $(".content").on("click",".delete",function(){
+//            let deletePid = $(this).parents("tr").find("td").eq(0).text();
+//            let datas = JSON.stringify({"pid":deletePid});
+//
+//            $.ajax({
+//                "url"       : interfaceUrl.deleteproduct,
+//                "type"      : "post",
+//                "headers"   : {"Content-Type":"application/json"},
+//                "data"      : datas,
+//                "success":function(data){
+//                    console.log(data.msg);
+//                    pageInit();
+//                }
+//            });
+        });
+        
+        //运行
+        $(".content").on("click",".implement",function(){
+//            let Pid = $(this).parents("tr").find("td").eq(0).text();
+//            let datas = JSON.stringify({"idlist":[Pid]});
+//
+//            $.ajax({
+//                "url"       : interfaceUrl.runproduct,
+//                "type"      : "post",
+//                "headers"   : {"Content-Type":"application/json"},
+//                "data"      : datas,
+//                "success":function(data){
+//                    console.log(data.msg);
+//                    pageInit();
+//                }
+//            });
+        });
+
+        //取消
+        $(".mask").on("click",".cancel",function(){
+            $(".alertBox").removeClass("add");
+            $(".alertBox").removeClass("modify");
+            $(".mask").addClass("hidden").removeClass("show");
+        });
+        
+        //点击确定
+        $(".mask").on("click",".sure",function(){
+            if($(".alertBox").hasClass("add") == true){
+                let inputData = $(".alertBody").find("input");
+//                let data = {
+//                    "projectid" : 
+//                };
+
+                $(".alertBox").removeClass("add");
+            }else if($(".alertBox").hasClass("modify") == true){
+                
+
+                
+                $(".alertBox").removeClass("modify");
+            }
+
+
+
+
+            $(".mask").addClass("hidden").removeClass("show");
+
+        });
         
     })();
 </script>
