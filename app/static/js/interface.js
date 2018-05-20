@@ -32,5 +32,10 @@ var interfaceUrl = {
     "readcass"   : "http://118.24.105.78:8808/readcass",  //读取用例信息
     "updatacass" : "http://118.24.105.78:8808/updatacass",//更新用例信息
     "runtests"    : "http://118.24.105.78:8808/runtests",    //按用例执行所有用例
-    "getcassres"    : "http://118.24.105.78:8808/getcassres"    //查询用例的执行结果
+    "getcassres"    : "http://118.24.105.78:8808/getcassres",    //查询用例的执行结果
+    //首页
+    "testreportscount" : "http://118.24.105.78:8808/testreportscount",   //上次用例执行结果统计
+    "runtimecount" : "http://118.24.105.78:8808/runtimecount",    //上次用例执行时间分段统计图
+    "modulescount" : "http://118.24.105.78:8808/modulescount",    //每个项目的模块数量统计
+    "testcasscount": "http://118.24.105.78:8808/testcasscount"    //每个模块的用例数量统计
 };

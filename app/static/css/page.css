@@ -54,3 +54,19 @@
 .page4 .add{
     left: 80%;
 }
+#chart1{
+    min-height: 345px;
+    min-width: 790px;
+}
+#chart2{
+    min-height: 345px;
+    min-width: 790px;
+}
+#chart3{
+    min-height: 345px;
+    min-width: 790px;
+}
+#chart4{
+    min-height: 345px;
+    min-width: 790px;
+}
