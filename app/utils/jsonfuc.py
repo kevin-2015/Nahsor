@@ -150,10 +150,9 @@ def _postman_format_validate(case):
                 if _basic_format_validate(raw_data):
                     reqs.append(json.loads(raw_data, encoding="utf-8"))
             except Exception as e:
-                print(e)
+                pass
                 pass
     except Exception as e:
-        print(e)
         pass
     finally:
         return reqs
@@ -204,47 +203,43 @@ def _har_format_validate(case):
                 if _basic_format_validate(req):
                     reqs.append(req)
             except Exception as e:
-                print(e)
                 pass
     except Exception as e:
-        print(e)
         pass
     finally:
         return reqs
 
 
-def validate_req_json(json_str, type='postman'):
+def validate_req_by_file(file_path, type='postman'):
     """
     :ex:校验并格式化PostMan和har格式的Json字符串
-    :param json_str: str; type:postman/har
+    :param file_path: 文件的地址 ; type:postman/har
     :return:   成功:[{json1},{json1},{json1}]
                 失败: []
     """
+    json_str = ""
+    for line in open(file_path, encoding="utf-8"):
+        json_str += line
+
     reqs = []
     try:
         if type.lower() == "har":
             reqs = _har_format_validate(json_str)
-
         if type.lower() == "postman":
             reqs = _postman_format_validate(json_str)
-
-    except Exception as e:
-        print(e)
+    except:
+        pass
     finally:
         return reqs
 
 
 if __name__ == "__main__":
 
-    test_type = "postman"  # 修改我
+    test_type = "har"  # 修改我
     if test_type == "postman":
         file_path = "C:/Users/SNake/PycharmProjects/Nahsor/examples/postman_test.json"
     if test_type == "har":
         file_path = "C:/Users/SNake/PycharmProjects/Nahsor/examples/har_test.har"
 
-    json = ""
-    for line in open(file_path, encoding="utf-8"):
-        json += line
-
-    print(validate_req_json(json, type=test_type))
+    print(validate_req_by_file(file_path, type=test_type))
 
