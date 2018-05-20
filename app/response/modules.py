@@ -36,8 +36,8 @@ def addmodule():
     '''
     新增模块
     {
-        "projectid":"所属产品id",
-        "module":"项目名称",
+        "projectid":"所属项目id",
+        "module":"模块名称",
         "explain":"描述",
         "leader":"责任人",
         "remark":"备注"
