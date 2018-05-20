@@ -22,7 +22,7 @@
     </div>
 </div>
 <script>
-    (function page2Init(){
+    (function page3Init(){
         function pageInit(){
             
             $.get(interfaceUrl.queryproject,function(data){
@@ -70,18 +70,18 @@
             $(".alertBody").append(table.alertTab);
             table.alertTab.append(table.proId,table.projectName,table.proInfo,table.proLeader,table.proText);
 
+            if(inputData.length>0){
+                for(let i =0;i < inputData.length;i++){
+                    $(inputData[i]).val("");
+                }
+            }
+            
             $.get(interfaceUrl.getproduct,function(data){
                table.proId.find("ul").html("");
                for(let i of data.data){
                    table.proId.find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
                }
             });
-
-            if(inputData.length>0){
-                for(let i =0;i < inputData.length;i++){
-                    $(inputData[i]).val("");
-                }
-            }
         });
                 
         $(".alertBox").on("click",".proId li",function(event){
@@ -161,6 +161,8 @@
 
         //取消
         $(".mask").on("click",".cancel",function(){
+            $(".alertBox").removeClass("add");
+            $(".alertBox").removeClass("modify");
             $(".mask").addClass("hidden").removeClass("show");
         });
 

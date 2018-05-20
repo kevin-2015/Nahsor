@@ -100,7 +100,7 @@
                     $(input[2]).val(leader);
                     $(input[3]).val(text);
                     
-                })
+                });
         
                 //删除
                 $(".content").on("click",".delete",function(){
@@ -138,6 +138,8 @@
 
                 //取消
                 $(".mask").on("click",".cancel",function(){
+                    $(".alertBox").removeClass("add");
+                    $(".alertBox").removeClass("modify");
                     $(".mask").addClass("hidden").removeClass("show");
                 });
                 
