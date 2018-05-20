@@ -20,13 +20,10 @@ def getproject():
     res = dbfucs.query(sql)
     projelist = []
     for prod in res:
-        prodict = {}
-        prodict["productid"] = prod["productid"]
-        prodict["product"] = prod["product"]
         sql = "SELECT t_project.id as projectid, t_project.project FROM t_project where productid = %s" % prod["productid"] 
         res = dbfucs.query(sql)
-        prodict["jectinfo"] = res
-        projelist.append(prodict)
+        prod["jectinfo"] = res
+        projelist.append(prod)
     response = {}
     response["code"] = 200
     response["data"] = projelist
