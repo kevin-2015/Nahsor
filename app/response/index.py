@@ -102,7 +102,10 @@ def _get_last_test_result_runtime():
     failed_results = dbfucs.query(failed_sql)
     for result in (success_results, failed_results):
         for r in result:
-            runtime = float(r.get("runtime"))
+            try:
+                runtime = float(r.get("runtime"))
+            except:
+                runtime = 100.0
             if runtime < 1.0:
                 faster["count"] += 1
                 faster["times"].append(runtime)
