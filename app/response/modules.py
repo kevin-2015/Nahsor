@@ -16,19 +16,20 @@ def getproject():
     '''
     读取项目列表，这个接口是给新增模块等东西的时候，选择所属项目用的
     '''
-    sql = """SELECT\
-        t_product.id as productid,\
-        t_product.product,\
-        t_project.id as projectid,\
-        t_project.project\
-    FROM\
-        t_product\
-    LEFT JOIN t_project ON t_product.id = t_project.productid"""
-    #LEFT JOIN t_modules ON t_project.id = t_modules.projectid"
+    sql = "SELECT t_product.id as productid, t_product.product FROM t_product"
     res = dbfucs.query(sql)
+    projelist = []
+    for prod in res:
+        prodict = {}
+        prodict["productid"] = prod["productid"]
+        prodict["product"] = prod["product"]
+        sql = "SELECT t_project.id as projectid, t_project.project FROM t_project where productid = %s" % prod["productid"] 
+        res = dbfucs.query(sql)
+        prodict["jectinfo"] = res
+        projelist.append(prodict)
     response = {}
     response["code"] = 200
-    response["data"] = res
+    response["data"] = projelist
     response["msg"] = "查询成功！！！"
     return jsonify(response)
 
