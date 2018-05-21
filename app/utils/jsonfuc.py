@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from app.utils.log import Logger
 from app.utils.exception import JSONDecodeError, ParamsException
+from urllib.parse import unquote_plus
 import json
 import pymysql
 
@@ -137,22 +138,19 @@ def _postman_format_validate(case):
         postman_items = json.loads(case, encoding="utf-8")["item"]
         if postman_items is None:
             return []
-
         for item in postman_items:
             try:
                 postman_items_req = item["request"]
                 postman_items_req_body = postman_items_req["body"]
                 raw_data = postman_items_req_body["raw"]
-
                 if raw_data is None:
                     return []
 
                 if _basic_format_validate(raw_data):
                     reqs.append(json.loads(raw_data, encoding="utf-8"))
-            except Exception as e:
+            except :
                 pass
-                pass
-    except Exception as e:
+    except :
         pass
     finally:
         return reqs
@@ -167,8 +165,6 @@ def _har_format_validate(case):
     FILTER_METHODS_RULES = [
         "get"
     ]
-
-    from urllib.parse import unquote_plus
 
     reqs = []
     try:
@@ -196,15 +192,19 @@ def _har_format_validate(case):
                 req = {}
                 for param in har_entries_req_postdate_params:
                     key, value = param["name"], param["value"]
-                    if key in ("request", "testname", "testtype", "validate"):
-                        req[key] = unquote_plus(value)
+                    if key in ("request", "testname", "testtype",
+                               "validate", "remark", "moduleid", "explain", "extract", "leader"):
+                        try:
+                            req[key] = unquote_plus(value).replace("\\", "\\\\")
+                        except:
+                            req[key] = value
 
                 # 格式校验
                 if _basic_format_validate(req):
                     reqs.append(req)
-            except Exception as e:
+            except :
                 pass
-    except Exception as e:
+    except:
         pass
     finally:
         return reqs
@@ -220,7 +220,6 @@ def validate_req_by_file(file_path, type='postman'):
     json_str = ""
     for line in open(file_path, encoding="utf-8"):
         json_str += line
-
     reqs = []
     try:
         if type.lower() == "har":
@@ -240,6 +239,5 @@ if __name__ == "__main__":
         file_path = "C:/Users/SNake/PycharmProjects/Nahsor/examples/postman_test.json"
     if test_type == "har":
         file_path = "C:/Users/SNake/PycharmProjects/Nahsor/examples/har_test.har"
-
     print(validate_req_by_file(file_path, type=test_type))
 

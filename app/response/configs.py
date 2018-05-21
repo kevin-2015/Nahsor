@@ -1,10 +1,12 @@
 # -*- coding:utf-8 -*-
 __author__ = 'snake'
 
-import os
+import os, json
 from app import bp
 from flask import jsonify, request
 from app.utils.log import Logger
+from app.utils.common import get_current_time
+from app.utils.dbfucs import excute
 from app.utils.jsonfuc import validate_req_by_file
 Logger = Logger()
 
@@ -34,13 +36,35 @@ def uploadtestcase():
     if _upload_files(file):
         testcases = validate_req_by_file(
             file_path=os.path.join("./app/uploads/", file.filename), type=filetype)
-        print(testcases)
-        # 解析并导入用例
-        moduleid = request.form.get("moduleid")
 
-        # todo 这里导入的数据有问题，表现为没有moduleid，如果一个har有多个case，那么moduleid无法判断，尴尬！！！
+        # 需要对应的postman和har的请求中包含以下字段
+        failed, success = 0, 0
+        for case in testcases:
+            moduleid = case.get("moduleid")
+            testname = case.get("testname")
+            testtype = case.get("testtype")
+            explain = case.get("explain")
+            requests = case.get("request")
+            validate = case.get("validate")
+            extract = case.get("extract")
+            leader = case.get("leader")
+            remark = case.get("remark")
 
+            # 插入sql数据
+            sql = "insert into t_testcass \
+            (`moduleid`, `testname`, `testtype`, `explain`, \
+            `request`, `validate`, `extract`, `leader`, `remark`, `createtime`) \
+            values('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');\
+            " % (moduleid, testname, testtype, explain, requests, validate, extract, leader, remark, get_current_time())
+            if excute(sql):
+                success += 1
+            else:
+                failed += 1
+
+        res = {
+            "code": 200,
+            "msg": "执行成功,成功导入%s个,失败%s个" % (success, failed)
+        }
+        return jsonify(res)
     else:
         return jsonify({"code": -100, "msg": "上传失败"})
-
-    return "123"
