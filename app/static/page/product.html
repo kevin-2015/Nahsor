@@ -173,7 +173,7 @@
                         let leader = $(".leader").val();
                         let remark = $(".remark").val();
                         
-                        datas = JSON.stringify({"pid": pid,"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
+                        let datas = JSON.stringify({"pid": pid,"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
                         
                         $.ajax({
                             "url"       : interfaceUrl.updataproduct,

@@ -47,7 +47,7 @@
         function pageInit(){
             $.get(interfaceUrl.modules,function(data){
                 if(data&&data.code == 200){
-                    
+
                     $(".page4 .table tbody").html("");
                     
                     for(let i of data.data){
@@ -58,7 +58,7 @@
                         let modules = i.modules;
                         let leader = i.leader;
                         let remark = i.remark;
-                        let tableBtn = '<button class="btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
+                        let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
                         let tr = $("<tr><td>"+moduleid+"</td><td>"+modules+"</td><td>"+explain+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
 
                         $(".page4 .table tbody").append(tr);
@@ -125,6 +125,7 @@
         
         //产品选择----弹窗
         $(".alertBox").on("click",".productId li",function(event){
+            table.project.find("input").eq(0).val("");
             $(".selectText").eq(0).val($(event.target).text());
             $(".selectText").eq(0).attr("productid",$(event.target).attr("id"));
             $(table.project).find("ul").html("");
@@ -152,47 +153,76 @@
         
         //修改
         $(".page4").on("click",".modify",function(){
-            
             $(".mask").addClass("show").removeClass("hidden");
             $(".alertBox").addClass("modify");
+            
+            let thisLine = $(this).parents("tr").find("td");
+            let pid = $(thisLine[0]).text();
+            let module = $(thisLine[1]).text();
+            let explain = $(thisLine[2]).text();
+            let leader = $(thisLine[4]).text();
+            let remark = $(thisLine[5]).text();
+            
             $(".alertHeader span").eq(0).text("修改-编号:");
-//            $(".alertHeader span").eq(1).text(pid);
+            $(".alertHeader span").eq(1).text(pid);
             $(".alertBody").html("");
+            
+            $(".alertBody").append(table.alertTab);
+            table.alertTab.append(table.proName,table.project,table.projectName,table.proInfo,table.proLeader,table.proText);
+            
+            $(table.proName).find("ul").html("");
+            $(table.project).find("ul").html("");
+            table.proName.find("input").eq(0).val("");
+            table.project.find("input").eq(0).val("");
+            
+            $.get(interfaceUrl.getproduct,function(data){
+                for(let i of data.data){
+                    $(table.proName).find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
+                }
+            });
+            
+            table.proName.find("input").eq(0).attr("disabled","disabled");
+            table.project.find("input").eq(0).attr("disabled","disabled");
+            
+            table.projectName.find("input").eq(0).val(module);
+            table.proInfo.find("input").eq(0).val(explain);
+            table.proLeader.find("input").eq(0).val(leader);
+            table.proText.find("input").eq(0).val(remark);
             
         });
         
         //删除
         $(".content").on("click",".delete",function(){
-//            let deletePid = $(this).parents("tr").find("td").eq(0).text();
-//            let datas = JSON.stringify({"pid":deletePid});
-//
-//            $.ajax({
-//                "url"       : interfaceUrl.deleteproduct,
-//                "type"      : "post",
-//                "headers"   : {"Content-Type":"application/json"},
-//                "data"      : datas,
-//                "success":function(data){
-//                    console.log(data.msg);
-//                    pageInit();
-//                }
-//            });
+            let deletePid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"pid":deletePid});
+
+            $.ajax({
+                "url"       : interfaceUrl.deletemodule,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
         });
         
         //运行
         $(".content").on("click",".implement",function(){
-//            let Pid = $(this).parents("tr").find("td").eq(0).text();
-//            let datas = JSON.stringify({"idlist":[Pid]});
-//
-//            $.ajax({
-//                "url"       : interfaceUrl.runproduct,
-//                "type"      : "post",
-//                "headers"   : {"Content-Type":"application/json"},
-//                "data"      : datas,
-//                "success":function(data){
-//                    console.log(data.msg);
-//                    pageInit();
-//                }
-//            });
+            let Pid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"idlist":[Pid]});
+
+            $.ajax({
+                "url"       : interfaceUrl.runmodule,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
         });
 
         //取消
@@ -203,7 +233,7 @@
         });
         
         //点击确定
-        $(".mask").on("click",".sure",function(){
+        $(".mask").on("click",".sure",function(event){
             if($(".alertBox").hasClass("add") == true){
                 
                 let inputData = $(".alertBody").find("input");
@@ -230,8 +260,25 @@
                 
                 $(".alertBox").removeClass("add");
             }else if($(".alertBox").hasClass("modify") == true){
+                let pid=$(".alertHeader span").eq(1).text();
+                let projectid=table.project.find("input").eq(0).val();
+                let module=table.projectName.find("input").eq(0).val();
+                let explain=table.proInfo.find("input").eq(0).val();
+                let leader=table.proLeader.find("input").eq(0).val();
+                let remark=table.proText.find("input").eq(0).val();
                 
-
+                let datas = JSON.stringify({"pid": pid,"projectid" : projectid,"module" : module,"explain"  : explain,"leader"  : leader,"remark":remark});
+                
+                $.ajax({
+                    "url"       : interfaceUrl.updatamodule,
+                    "type"      : "post",
+                    "headers"   : {"Content-Type":"application/json"},
+                    "data"      : datas,
+                    "success":function(data){
+                        console.log(data.msg);
+                        pageInit();
+                    }
+                });
                 
                 $(".alertBox").removeClass("modify");
             }
