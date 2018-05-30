@@ -74,9 +74,9 @@
         let table = {
             "alertTab"  : $('<form class="form-horizontal" role="form"></form>'),
             
-            "proName"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            "proName"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText disabled="disabled" form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="productId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
             
-            "project"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属项目</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            "project"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属项目</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText disabled="disabled" form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="projectId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
             
             "projectName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">项目名称</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
             
@@ -88,7 +88,7 @@
         };
         
         //新增
-        $(".page4 .add button").on("click",function(){
+        $(".page4 .add button").on("click",function(){ 
             $(".mask").addClass("show").removeClass("hidden");
             $(".alertBox").addClass("add");
             $(".alertHeader span").eq(0).text("新增");
@@ -98,6 +98,9 @@
             
             $(".alertBody").append(table.alertTab);
             table.alertTab.append(table.proName,table.project,table.projectName,table.proInfo,table.proLeader,table.proText);
+            
+            $(table.proName).find("ul").html("");
+            $(table.project).find("ul").html("");
             
             $.get(interfaceUrl.getproduct,function(data){
                 for(let i of data.data){
@@ -113,15 +116,31 @@
             
         });
         
-        $(".alertBox").on("click",".proId li",function(event){
-            $(".selectText").eq(0).val($(event.target).text()).attr("productid",$(event.target).attr("id"));
+        
+        //产品选择----弹窗
+        $(".alertBox").on("click",".productId li",function(event){
+            $(".selectText").eq(0).val($(event.target).text());
+            $(".selectText").eq(0).attr("productid",$(event.target).attr("id"));
             
             let pid = $(event.target).attr("id");
             
             $.get(interfaceUrl.getproject,function(data){
-                debugger;
+                for(let i of data.data){
+                    if(i.productid == pid&&i.jectinfo.length>0){
+                        for(let x of i.jectinfo){
+                            $(table.project).find("ul").append("<li><a id='"+x.projectid+"'>"+x.project+"</a></li>");
+                        }
+                    }
+                }
             });
         });
+        
+        //项目选择----弹窗
+        $(".alertBox").on("click",".projectId li",function(event){
+            $(".selectText").eq(1).val($(event.target).text());
+            $(".selectText").eq(1).attr("projectid",$(event.target).attr("id"));
+        });
+        
         
         
         //修改
@@ -179,11 +198,22 @@
         //点击确定
         $(".mask").on("click",".sure",function(){
             if($(".alertBox").hasClass("add") == true){
+                
                 let inputData = $(".alertBody").find("input");
-//                let data = {
-//                    "projectid" : 
-//                };
-
+                
+                let data = {
+                    "projectid": inputData.eq(1).attr("projectid"),   //项目ID
+                    "module"   : inputData.eq(2).val(),               //模块名称
+                    "explain"  : inputData.eq(3).val(),               //描述
+                    "leader"   : inputData.eq(4).val(),               //负责人
+                    "remark"   : inputData.eq(5).val()                //备注
+                };
+                
+                $.post(interfaceUrl.addmodule,data,function(data){
+                    debugger;
+                   console.log(data); 
+                });
+                
                 $(".alertBox").removeClass("add");
             }else if($(".alertBox").hasClass("modify") == true){
                 
