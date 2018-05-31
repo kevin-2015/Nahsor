@@ -1,4 +1,4 @@
-<div class="content page2">
+<div class="content page5">
     <div class="projectManager table-responsive">
         <table class="table table-bordered">
             <caption><div class="add btn-group btn-group-sm"><button type="button" class="btn btn-default">新增</button></div></caption>
@@ -6,7 +6,7 @@
                 <tr>
                     <th>编号</th>
                     <th>名称</th>
-                    <th>模块名称</th>
+                    <th>所属模块</th>
                     <th>描述</th>
                     <th>执行状态</th>
                     <th>责任人</th>
@@ -22,192 +22,292 @@
     </div>
 </div>
 <script>
-    (function page2Init(){
+    (function page5Init(){
         function pageInit(){
-            $.get(interfaceUrl.testcase,function(data){
-            // debugger;
-            if(data&&data.code == 200){
-                for(let i of data.data){
-                    let modulename = i.modulename;
-                    let createtime = i.createtime;
-                    let explain = i.explain;
-                    let status = i.status;
-                    let testid = i.testid;
-                    let testname = i.testname
-                    let leader = i.leader;
-                    let remark = i.remark;
-                    let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="result btn btn-link btn-sm">结果</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
-                    let tr = $("<tr><td>"+testid+"</td><td>"+testname+"</td><td>"+modulename+"</td><td>"+explain+"</td><td>"+status+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
-                    
-                    $(".page2 .table tbody").append(tr);
-                }
+            $.get(interfaceUrl.querytcass,function(data){
+
+                if(data&&data.code == 200){
+
+                    $(".page5 .table tbody").html("");
+
+                    for(let i of data.data){
+                        let modulename = i.modulename;
+                        let createtime = i.createtime;
+                        let explain = i.explain;
+                        let status = i.status;
+                        let testid = i.testid;
+                        let testname = i.testname
+                        let leader = i.leader;
+                        let remark = i.remark;
+                        let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="result btn btn-link btn-sm">结果</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
+                        let tr = $("<tr><td>"+testid+"</td><td>"+testname+"</td><td>"+modulename+"</td><td>"+explain+"</td><td>"+status+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
+
+                        $(".page5 .table tbody").append(tr);
+                    }
                 }
             });
         };
         pageInit();
         
         let table = {
-                    "alertTab"  : $('<form class="form-horizontal" role="form"></form>'),
-                    "proName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">产品名称</label><div class="col-sm-10"><input class="product form-control" id="focusedInput" type="text" placeholder="请输入胡晋科智障不解释"></div></div>'),
-                    "proInfo"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">描述</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
-                    "proLeader" : $('<div class="form-group"><label class="col-sm-2 control-label" for="leader">责任人</label><div class="col-sm-10"><input class="leader form-control" id="focusedInput" type="text" placeholder="请输入责任人"></div></div>'),
-                    "proText"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">备注</label><div class="col-sm-10"><input class="remark form-control" id="focusedInput" type="text" placeholder="请输入备注"></div></div>')
-                };
+            "alertTab"  : $('<form class="form-horizontal" role="form"></form>'),
+
+            "productName"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="productId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            
+            "project"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属项目</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="projectId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            
+            "module"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属模块</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="module dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            
+            "testcaseName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">用例名称</label><div class="col-sm-10"><input class="testcaseName form-control" type="text" placeholder="请输入用例名称"></div></div>'),
+            
+            "proInfo"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">描述</label><div class="col-sm-10"><input class="explain form-control" type="text" placeholder="请输入描述"></div></div>'),
+            
+            "proLeader" : $('<div class="form-group"><label class="col-sm-2 control-label" for="leader">责任人</label><div class="col-sm-10"><input class="leader form-control" type="text" placeholder="请输入责任人"></div></div>'),
+            
+            "proText"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">备注</label><div class="col-sm-10"><input class="remark form-control" type="text" placeholder="请输入备注"></div></div>'),
+            
+            "testData"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">测试数据</label><div class="col-sm-10"><input class="testData form-control" type="text" placeholder="请输入测试数据"></div></div>'),
+            
+            "Headers"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">Headers</label><div class="col-sm-10"><input class="Headers form-control" type="text" placeholder="请输入Headers"></div></div>'),
+            
+            "request"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">请求</label><div class="col-sm-10"><input class="request form-control" type="text" placeholder="请输入请求"></div></div>'),
+            
+            "checkMode"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">校验方式</label><div class="col-sm-10"><input class="checkMode form-control" type="text" placeholder="请输入校验方式"></div></div>')
+//            
+//            "parameter"  : $('<div class="form-group"><label class="col-sm-2 control-label" for="remark">关联参数</label><div class="col-sm-10"><input class="parameter form-control" type="text" placeholder="请输入关联参数"></div></div>'),
+        };
                 
                 
-                $(".add").on("click",function(){                        //新增
-                    $(".mask").addClass("show").removeClass("hidden");
-                    $(".alertBox").addClass("add");
-                    $(".alertHeader span").eq(0).text("新增");
-                    $(".alertBody").html("");
-                    
-                    let inputData = table.alertTab.find("input");
-                    
-                    $(".alertBody").append(table.alertTab);
-                    table.alertTab.append(table.proName,table.proInfo,table.proLeader,table.proText);
-                    
-                    if(inputData.length>0){
-                        for(let i =0;i < inputData.length;i++){
-                            $(inputData[i]).val("");
+        $(".add").on("click",function(){                        //新增
+            $(".alertBox").css("height","675px");
+            $(".mask").addClass("show").removeClass("hidden");
+            $(".alertBox").addClass("add");
+            $(".alertHeader span").eq(0).text("新增");
+            $(".alertBody").html("");
+
+            let inputData = table.alertTab.find("input");
+
+            $(".alertBody").append(table.alertTab);
+            table.alertTab.append(table.productName,table.project,table.module,table.testcaseName,table.proInfo,table.proLeader,table.proText,table.testData,table.Headers,table.request,table.checkMode,table.parameter);
+            
+            $(table.productName).find("ul").html("");
+            $(table.project).find("ul").html("");
+            
+            $.get(interfaceUrl.getproduct,function(data){
+                for(let i of data.data){
+                    $(table.productName).find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
+                }
+            });
+            
+            table.productName.find("input").eq(0).attr("disabled","disabled");
+            table.project.find("input").eq(0).attr("disabled","disabled");
+            table.module.find("input").eq(0).attr("disabled","disabled");
+            
+            if(inputData.length>0){
+                for(let i =0;i < inputData.length;i++){
+                    $(inputData[i]).val("");
+                }
+            }
+            
+        });
+        
+        //产品选择----弹窗
+        $(".alertBox").on("click",".productId li",function(event){
+            table.project.find("input").eq(0).val("");
+            table.module.find("input").eq(0).val("");
+            $(".selectText").eq(0).val($(event.target).text());
+            $(".selectText").eq(0).attr("productid",$(event.target).attr("id"));
+            $(table.project).find("ul").html("");
+            $(table.module).find("ul").html("");
+            
+            let pid = $(event.target).attr("id");
+            
+            $.get(interfaceUrl.getproject,function(data){
+                for(let i of data.data){
+                    if(i.productid == pid&&i.jectinfo.length>0){
+                        for(let x of i.jectinfo){
+                            $(table.project).find("ul").append("<li><a id='"+x.projectid+"'>"+x.project+"</a></li>");
                         }
                     }
-                });
-                
-                $(".content").on("click",".modify",function(){          //修改
-                    let thisLine = $(this).parents("tr").find("td");
-                    
-                    let pid = $(thisLine[0]).text();
-                    let name = $(thisLine[1]).text();
-                    let info = $(thisLine[2]).text();
-                    let leader = $(thisLine[5]).text();
-                    let text = $(thisLine[6]).text();
-                    
-                    $(".mask").addClass("show").removeClass("hidden");
-                    $(".alertBox").addClass("modify");
-                    $(".alertHeader span").eq(0).text("修改-编号:");
-                    $(".alertHeader span").eq(1).text(pid);
-                    $(".alertBody").html("");
-                    
-                    $(".alertBody").append(table.alertTab);
-                    table.alertTab.append(table.proName,table.proInfo,table.proLeader,table.proText);
-                    
-                    let input = table.alertTab.find("input");
-                    $(input[0]).val(name);
-                    $(input[1]).val(info);
-                    $(input[2]).val(leader);
-                    $(input[3]).val(text);
-                    
+                }
+            });
+        });
+        
+        //项目选择----弹窗
+        $(".alertBox").on("click",".projectId li",function(event){
+            table.module.find("input").eq(0).val("");
+            $(".selectText").eq(1).val($(event.target).text());
+            $(".selectText").eq(1).attr("projectid",$(event.target).attr("id"));
+            $(table.module).find("ul").html("");
+            
+            let productId = $(".selectText").eq(0).attr("productid");
+            let proId = $(event.target).attr("id");
+            
+            $.get(interfaceUrl.getmodules,function(data){
+                for(let i of data.data){
+                    if(i.productid == productId){
+                        for(let x of i.jectinfo){
+                            if(x.projectid == proId){
+                                for(let v of x.moduleinfo){
+                                    $(table.module).find("ul").append("<li><a id='"+v.moduleid+"'>"+v.modules+"</a></li>");
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        
+        
+        //模块选择----弹窗
+        $(".alertBox").on("click",".module li",function(event){
+            $(".selectText").eq(2).val($(event.target).text());
+            $(".selectText").eq(2).attr("moduleid",$(event.target).attr("id"));
+        });
+        
+
+        $(".content").on("click",".modify",function(){          //修改
+            let thisLine = $(this).parents("tr").find("td");
+
+            let pid = $(thisLine[0]).text();
+            let name = $(thisLine[1]).text();
+            let info = $(thisLine[2]).text();
+            let leader = $(thisLine[5]).text();
+            let text = $(thisLine[6]).text();
+
+            $(".mask").addClass("show").removeClass("hidden");
+            $(".alertBox").addClass("modify");
+            $(".alertHeader span").eq(0).text("修改-编号:");
+            $(".alertHeader span").eq(1).text(pid);
+            $(".alertBody").html("");
+
+            $(".alertBody").append(table.alertTab);
+            table.alertTab.append(table.proName,table.proInfo,table.proLeader,table.proText);
+
+            let input = table.alertTab.find("input");
+            $(input[0]).val(name);
+            $(input[1]).val(info);
+            $(input[2]).val(leader);
+            $(input[3]).val(text);
+
+        })
+
+        //删除
+        $(".content").on("click",".delete",function(){
+            let deletePid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"pid":deletePid});
+
+            $.ajax({
+                "url"       : interfaceUrl.deletecass,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
+        });
+
+        //运行
+        $(".content").on("click",".implement",function(){
+            let Pid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"idlist":[Pid]});
+
+            $.ajax({
+                "url"       : interfaceUrl.runtests,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
+        });
+
+        //结果
+        $(".content").on("click",".result",function(){
+            let Pid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"pid":Pid});
+
+            $.ajax({
+                "url"       : interfaceUrl.getcassres,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.data);
+                    //这个地方要一个弹窗，把data里的内容给打印出来。
+                    // pageInit();
+                }
+            });
+        });
+
+        //取消
+        $(".mask").on("click",".cancel",function(){
+            $(".mask").addClass("hidden").removeClass("show");
+        });
+
+
+        //点击确定
+        $(".mask").on("click",".sure",function(){
+            if($(".alertBox").hasClass("add") == true){
+                let moduleId = $(".selectText").eq(2).attr("moduleId");
+                let testcaseName = $(".testcaseName").val();
+                let explain = $(".explain").val();
+                let leader = $(".leader").val();
+                let remark = $(".remark").val();
+                let testData = $(".testData").val();
+                let request = $(".request").val();
+                let checkMode = $(".checkMode").val();
+
+                let datas = JSON.stringify({"moduleid" : moduleId,"testname" : testcaseName,"testData"  : checkMode,"explain"  : explain, "request":request,"validate":checkMode,"extract":[],"leader":leader,"remark":remark});
+
+                $.ajax({
+                    "url"       : interfaceUrl.addtcass,
+                    "type"      : "post",
+                    "headers"   : {"Content-Type":"application/json"},
+                    "data"      : datas,
+                    "success":function(data){
+                        console.log(data.msg);
+                        pageInit();
+                    }
                 })
-        
-                //删除
-                $(".content").on("click",".delete",function(){
-                    let deletePid = $(this).parents("tr").find("td").eq(0).text();
-                    let datas = JSON.stringify({"pid":deletePid});
-                    
-                    $.ajax({
-                        "url"       : interfaceUrl.deletecass,
-                        "type"      : "post",
-                        "headers"   : {"Content-Type":"application/json"},
-                        "data"      : datas,
-                        "success":function(data){
-                            console.log(data.msg);
-                            pageInit();
-                        }
-                    });
-                });
-                
-                //运行
-                $(".content").on("click",".implement",function(){
-                    let Pid = $(this).parents("tr").find("td").eq(0).text();
-                    let datas = JSON.stringify({"idlist":[Pid]});
-                    
-                    $.ajax({
-                        "url"       : interfaceUrl.runtests,
-                        "type"      : "post",
-                        "headers"   : {"Content-Type":"application/json"},
-                        "data"      : datas,
-                        "success":function(data){
-                            console.log(data.msg);
-                            pageInit();
-                        }
-                    });
-                });
 
-                //结果
-                $(".content").on("click",".result",function(){
-                    let Pid = $(this).parents("tr").find("td").eq(0).text();
-                    let datas = JSON.stringify({"pid":Pid});
-                    
-                    $.ajax({
-                        "url"       : interfaceUrl.getcassres,
-                        "type"      : "post",
-                        "headers"   : {"Content-Type":"application/json"},
-                        "data"      : datas,
-                        "success":function(data){
-                            console.log(data.data);
-                            //这个地方要一个弹窗，把data里的内容给打印出来。
-                            // pageInit();
-                        }
-                    });
-                });
+                $(".alertBox").removeClass("add");
+            }else if($(".alertBox").hasClass("modify") == true){
+                let moduleId = $(".selectText").eq(2).attr("moduleId");
+                let testcaseName = $(".testcaseName").val();
+                let explain = $(".explain").val();
+                let leader = $(".leader").val();
+                let remark = $(".remark").val();
+                let testData = $(".testData").val();
+                let request = $(".request").val();
+                let checkMode = $(".checkMode").val();
 
-                //取消
-                $(".mask").on("click",".cancel",function(){
-                    $(".mask").addClass("hidden").removeClass("show");
-                });
-                
-        
-                //点击确定
-                $(".mask").on("click",".sure",function(){
-                    if($(".alertBox").hasClass("add") == true){
-                        let product = $(".product").val();
-                        let explain = $(".explain").val();
-                        let leader = $(".leader").val();
-                        let remark = $(".remark").val();
-                        
-                        let datas = JSON.stringify({"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
-                        
-                        $.ajax({
-                            "url"       : interfaceUrl.addtcass,
-                            "type"      : "post",
-                            "headers"   : {"Content-Type":"application/json"},
-                            "data"      : datas,
-                            "success":function(data){
-                                console.log(data.msg);
-                                pageInit();
-                            }
-                        })
-                        
-                        $(".alertBox").removeClass("add");
-                    }else if($(".alertBox").hasClass("modify") == true){
-                        let pid = $(".alertHeader span").eq(1).text();
-                        let product = $(".product").val();
-                        let explain = $(".explain").val();
-                        let leader = $(".leader").val();
-                        let remark = $(".remark").val();
-                        
-                        datas = JSON.stringify({"pid": pid,"product" : product,"explain" : explain,"leader"  : leader,"remark"  : remark});
-                        
-                        $.ajax({
-                            "url"       : interfaceUrl.updatacass,
-                            "type"      : "post",
-                            "headers"   : {"Content-Type":"application/json"},
-                            "data"      : datas,
-                            "success":function(data){
-                                console.log(data.msg);
-                                pageInit();
-                            }
-                        });
-                        
-                        $(".alertBox").removeClass("modify");
+                let datas = JSON.stringify({"moduleid" : moduleId,"testname" : testcaseName,"testData"  : checkMode,"explain"  : explain, "request":request,"validate":checkMode,"extract":[],"leader":leader,"remark":remark});
+
+                $.ajax({
+                    "url"       : interfaceUrl.updatacass,
+                    "type"      : "post",
+                    "headers"   : {"Content-Type":"application/json"},
+                    "data"      : datas,
+                    "success":function(data){
+                        console.log(data.msg);
+                        pageInit();
                     }
-                    
-                    
-                    
-                    
-                    $(".mask").addClass("hidden").removeClass("show");
-                    
                 });
+
+                $(".alertBox").removeClass("modify");
+            }
+
+
+
+
+            $(".mask").addClass("hidden").removeClass("show");
+
+        });
         
         
     })();
