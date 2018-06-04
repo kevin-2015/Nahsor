@@ -25,6 +25,29 @@ def import_json_file(filename):
 def chick_type_json(filename):
     '''
     检查json文件的内容
+    "testcase": {
+        "name": "get token with $user_agent, $os_platform, $app_version",
+        "request": {
+            "url": "/api/get-token",
+            "method": "POST",
+            "headers": {
+                "app_version": "$app_version",
+                "os_platform": "$os_platform",
+                "user_agent": "$user_agent"
+            },
+            "json": {
+                "sign": "${get_sign($user_agent, $device_sn, $os_platform, $app_version)}"
+            },
+            "extract": [
+                {"token": "content.token"}
+            ],
+            "validate": [
+                {"eq": ["status_code", 200]},
+                {"eq": ["headers.Content-Type", "application/json"]},
+                {"eq": ["content.success", true]}
+            ]
+        }
+    }
     '''
     with open(filename, 'r') as f:
         json_context = json.load(f)
@@ -32,7 +55,10 @@ def chick_type_json(filename):
     for testcass in json_context:
         if not testcass:
             logger.error("没有发现测试用例，结束用例执行！")
-    testcass.get("testname")
+    if isinstance(testcass, dict):
+        
+    if testcass.get("testcase"):
+
 
 
 
