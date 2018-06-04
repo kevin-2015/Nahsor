@@ -4,17 +4,35 @@
 时间：2018-6-2
 说明：解析json为用例的各种方法
 '''
-def jsonfile(filename):
+import json
+from logger import Logger
+logger = Logger()
+
+
+def import_json_file(filename):
     '''
-    判断导入的json文件格式是否合法
+    filename = "test_*.json"
+    说明：判断导入的json文件名/格式是否合法
     '''
     filetype = filename.split(".")
-    # print(filetype[-1])
     if filetype[-1] == "json" and filename.startswith("test"):
         return filename
     else:
-        Logger().error("导入的JSON文件格式不正确，请检查JSON格式！")
-        return None
+        logger.error("导入的JSON文件格式不正确，请检查JSON格式！")
+        exit()
+
+
+def chick_type_json(filename):
+    '''
+    检查json文件的内容
+    '''
+    with open(filename, 'r') as f:
+        json_context = json.load(f)
+        # print(all_tests)
+    for testcass in json_context:
+        if not testcass:
+            logger.error("没有发现测试用例，结束用例执行！")
+    testcass.get("testname")
 
 
 
