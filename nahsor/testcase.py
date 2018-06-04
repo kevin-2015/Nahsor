@@ -26,17 +26,15 @@ def chick_type_json(filename):
     '''
     检查json文件的内容
     "testcase": {
-        "name": "get token with $user_agent, $os_platform, $app_version",
+        "name": "teatname",
         "request": {
             "url": "/api/get-token",
             "method": "POST",
             "headers": {
-                "app_version": "$app_version",
-                "os_platform": "$os_platform",
-                "user_agent": "$user_agent"
+                "app_version": "$app_version"
             },
             "json": {
-                "sign": "${get_sign($user_agent, $device_sn, $os_platform, $app_version)}"
+                "username": "admin","password":"123456"
             },
             "extract": [
                 {"token": "content.token"}
@@ -52,11 +50,11 @@ def chick_type_json(filename):
     with open(filename, 'r') as f:
         json_context = json.load(f)
         # print(all_tests)
+    if not isinstance(json_context, list):
+        raise
     for testcass in json_context:
         if not testcass:
             logger.error("没有发现测试用例，结束用例执行！")
-    if isinstance(testcass, dict):
-        
     if testcass.get("testcase"):
 
 
