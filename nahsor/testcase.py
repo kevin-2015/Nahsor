@@ -6,6 +6,7 @@
 '''
 import json
 from logger import Logger
+from nahsor import exception
 logger = Logger()
 
 
@@ -25,37 +26,42 @@ def import_json_file(filename):
 def chick_type_json(filename):
     '''
     检查json文件的内容
-    "testcase": {
-        "name": "teatname",
-        "request": {
-            "url": "/api/get-token",
-            "method": "POST",
-            "headers": {
-                "app_version": "$app_version"
-            },
-            "json": {
-                "username": "admin","password":"123456"
-            },
-            "extract": [
-                {"token": "content.token"}
-            ],
-            "validate": [
-                {"eq": ["status_code", 200]},
-                {"eq": ["headers.Content-Type", "application/json"]},
-                {"eq": ["content.success", true]}
-            ]
-        }
+    {
+        "testcase": {
+            "name": "teatname",
+            "request": {
+                "url": "/api/get-token",
+                "method": "POST",
+                "headers": {
+                    "app_version": "$app_version"
+                },
+                "json": {
+                    "username": "admin","password":"123456"
+                },
+                "extract": [
+                    {"token": "content.token"}
+                ],
+                "validate": [
+                    {"eq": ["status_code", 200]},
+                    {"eq": ["headers.Content-Type", "application/json"]},
+                    {"eq": ["content.success", true]}
+                ]
+            }
     }
     '''
     with open(filename, 'r') as f:
         json_context = json.load(f)
         # print(all_tests)
     if not isinstance(json_context, list):
-        raise
-    for testcass in json_context:
-        if not testcass:
-            logger.error("没有发现测试用例，结束用例执行！")
-    if testcass.get("testcase"):
+        raise exception.NotFoundCaseError("用例格式错误，json数据不是list")
+    for testcase in json_context:
+        if not testcase:
+            raise exception.NotFoundCaseError("在json文件中没有找到testcase")
+        case =  testcase["testcase"]
+        request = case["request"]
+        url = request["url"]
+        method = request["method"]
+
 
 
 
