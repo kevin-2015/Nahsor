@@ -101,8 +101,7 @@ def deletemodule():
 
     response = {}
     response["code"] = 200
-    response["data"] = dbfucs.excute(delete_testcase_sql)\
-                            and dbfucs.excute(delete_modules_sql)
+    response["data"] = dbfucs.excute(delete_testcase_sql) and dbfucs.excute(delete_modules_sql)
     response["msg"] = "删除成功！！！"
     return jsonify(response)
 

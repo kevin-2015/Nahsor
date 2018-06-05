@@ -47,6 +47,9 @@
         function pageInit(){
             $.get(interfaceUrl.modules,function(data){
                 if(data&&data.code == 200){
+
+                    $(".page4 .table tbody").html("");
+                    
                     for(let i of data.data){
                         let cassnum = i.cassnum;
                         let createtime = i.createtime;
@@ -55,7 +58,7 @@
                         let modules = i.modules;
                         let leader = i.leader;
                         let remark = i.remark;
-                        let tableBtn = '<button class="btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
+                        let tableBtn = '<button class="implement btn btn-link btn-sm">执行</button><button class="modify btn btn-link btn-sm">修改</button><button class="delete btn btn-link btn-sm">删除</button>'; 
                         let tr = $("<tr><td>"+moduleid+"</td><td>"+modules+"</td><td>"+explain+"</td><td>"+cassnum+"</td><td>"+leader+"</td><td>"+remark+"</td><td>"+createtime+"</td><td>"+tableBtn+"</td></tr>")
 
                         $(".page4 .table tbody").append(tr);
@@ -74,9 +77,9 @@
         let table = {
             "alertTab"  : $('<form class="form-horizontal" role="form"></form>'),
             
-            "proName"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            "proName"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属名称</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="productId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
             
-            "project"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属项目</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="proId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
+            "project"      : $('<div class="form-group"><label class="col-sm-2 control-label" for="name">所属项目</label><form class="bs-example bs-example-form" role="form"><div class="row"><div class="select col-lg-6"><div class="input-group"><input type="text" class="selectText form-control"><div class="input-group-btn"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">下拉菜单<span class="caret"></span></button><ul class="projectId dropdown-menu pull-right"></ul></div></div></div></div></form></div>'),
             
             "projectName"   : $('<div class="form-group"><label class="col-sm-2 control-label" for="info">项目名称</label><div class="col-sm-10"><input class="explain form-control" id="focusedInput" type="text" placeholder="请输入产品描述"></div></div>'),
             
@@ -88,7 +91,7 @@
         };
         
         //新增
-        $(".page4 .add button").on("click",function(){
+        $(".page4 .add button").on("click",function(){ 
             $(".mask").addClass("show").removeClass("hidden");
             $(".alertBox").addClass("add");
             $(".alertHeader span").eq(0).text("新增");
@@ -99,74 +102,127 @@
             $(".alertBody").append(table.alertTab);
             table.alertTab.append(table.proName,table.project,table.projectName,table.proInfo,table.proLeader,table.proText);
             
+            $(table.proName).find("ul").html("");
+            $(table.project).find("ul").html("");
+            
             $.get(interfaceUrl.getproduct,function(data){
                 for(let i of data.data){
                     $(table.proName).find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
                 }
             });
             
+            table.proName.find("input").eq(0).attr("disabled","disabled");
+            table.project.find("input").eq(0).attr("disabled","disabled");
+            
             if(inputData.length>0){
                 for(let i =0;i < inputData.length;i++){
                     $(inputData[i]).val("");
                 }
             }
-            
+    
         });
         
-        $(".alertBox").on("click",".proId li",function(event){
-            $(".selectText").eq(0).val($(event.target).text()).attr("productid",$(event.target).attr("id"));
+        
+        //产品选择----弹窗
+        $(".alertBox").on("click",".productId li",function(event){
+            table.project.find("input").eq(0).val("");
+            $(".selectText").eq(0).val($(event.target).text());
+            $(".selectText").eq(0).attr("productid",$(event.target).attr("id"));
+            $(table.project).find("ul").html("");
             
             let pid = $(event.target).attr("id");
             
             $.get(interfaceUrl.getproject,function(data){
-                debugger;
+                for(let i of data.data){
+                    if(i.productid == pid&&i.jectinfo.length>0){
+                        for(let x of i.jectinfo){
+                            $(table.project).find("ul").append("<li><a id='"+x.projectid+"'>"+x.project+"</a></li>");
+                        }
+                    }
+                }
             });
         });
+        
+        //项目选择----弹窗
+        $(".alertBox").on("click",".projectId li",function(event){
+            $(".selectText").eq(1).val($(event.target).text());
+            $(".selectText").eq(1).attr("projectid",$(event.target).attr("id"));
+        });
+        
         
         
         //修改
         $(".page4").on("click",".modify",function(){
-            
             $(".mask").addClass("show").removeClass("hidden");
             $(".alertBox").addClass("modify");
+            
+            let thisLine = $(this).parents("tr").find("td");
+            let pid = $(thisLine[0]).text();
+            let module = $(thisLine[1]).text();
+            let explain = $(thisLine[2]).text();
+            let leader = $(thisLine[4]).text();
+            let remark = $(thisLine[5]).text();
+            
             $(".alertHeader span").eq(0).text("修改-编号:");
-//            $(".alertHeader span").eq(1).text(pid);
+            $(".alertHeader span").eq(1).text(pid);
             $(".alertBody").html("");
+            
+            $(".alertBody").append(table.alertTab);
+            table.alertTab.append(table.proName,table.project,table.projectName,table.proInfo,table.proLeader,table.proText);
+            
+            $(table.proName).find("ul").html("");
+            $(table.project).find("ul").html("");
+            table.proName.find("input").eq(0).val("");
+            table.project.find("input").eq(0).val("");
+            
+            $.get(interfaceUrl.getproduct,function(data){
+                for(let i of data.data){
+                    $(table.proName).find("ul").append("<li><a id='"+i.id+"'>"+i.product+"</a></li>");
+                }
+            });
+            
+            table.proName.find("input").eq(0).attr("disabled","disabled");
+            table.project.find("input").eq(0).attr("disabled","disabled");
+            
+            table.projectName.find("input").eq(0).val(module);
+            table.proInfo.find("input").eq(0).val(explain);
+            table.proLeader.find("input").eq(0).val(leader);
+            table.proText.find("input").eq(0).val(remark);
             
         });
         
         //删除
         $(".content").on("click",".delete",function(){
-//            let deletePid = $(this).parents("tr").find("td").eq(0).text();
-//            let datas = JSON.stringify({"pid":deletePid});
-//
-//            $.ajax({
-//                "url"       : interfaceUrl.deleteproduct,
-//                "type"      : "post",
-//                "headers"   : {"Content-Type":"application/json"},
-//                "data"      : datas,
-//                "success":function(data){
-//                    console.log(data.msg);
-//                    pageInit();
-//                }
-//            });
+            let deletePid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"pid":deletePid});
+
+            $.ajax({
+                "url"       : interfaceUrl.deletemodule,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
         });
         
         //运行
         $(".content").on("click",".implement",function(){
-//            let Pid = $(this).parents("tr").find("td").eq(0).text();
-//            let datas = JSON.stringify({"idlist":[Pid]});
-//
-//            $.ajax({
-//                "url"       : interfaceUrl.runproduct,
-//                "type"      : "post",
-//                "headers"   : {"Content-Type":"application/json"},
-//                "data"      : datas,
-//                "success":function(data){
-//                    console.log(data.msg);
-//                    pageInit();
-//                }
-//            });
+            let Pid = $(this).parents("tr").find("td").eq(0).text();
+            let datas = JSON.stringify({"idlist":[Pid]});
+
+            $.ajax({
+                "url"       : interfaceUrl.runmodule,
+                "type"      : "post",
+                "headers"   : {"Content-Type":"application/json"},
+                "data"      : datas,
+                "success":function(data){
+                    console.log(data.msg);
+                    pageInit();
+                }
+            });
         });
 
         //取消
@@ -177,17 +233,52 @@
         });
         
         //点击确定
-        $(".mask").on("click",".sure",function(){
+        $(".mask").on("click",".sure",function(event){
             if($(".alertBox").hasClass("add") == true){
+                
                 let inputData = $(".alertBody").find("input");
-//                let data = {
-//                    "projectid" : 
-//                };
-
+                
+                let data = JSON.stringify({
+                    "projectid": inputData.eq(1).attr("projectid"),   //项目ID
+                    "module"   : inputData.eq(2).val(),               //模块名称
+                    "explain"  : inputData.eq(3).val(),               //描述
+                    "leader"   : inputData.eq(4).val(),               //负责人
+                    "remark"   : inputData.eq(5).val()                //备注
+                });
+                
+                $.ajax({
+                    "url"       : interfaceUrl.addmodule,
+                    "type"      : "post",
+                    "headers"   : {"Content-Type":"application/json"},
+                    "data"      : data,
+                    "success":function(data){
+                        console.log(data.msg);
+                        pageInit();
+                    }
+                });
+                
+                
                 $(".alertBox").removeClass("add");
             }else if($(".alertBox").hasClass("modify") == true){
+                let pid=$(".alertHeader span").eq(1).text();
+                let projectid=table.project.find("input").eq(0).val();
+                let module=table.projectName.find("input").eq(0).val();
+                let explain=table.proInfo.find("input").eq(0).val();
+                let leader=table.proLeader.find("input").eq(0).val();
+                let remark=table.proText.find("input").eq(0).val();
                 
-
+                let datas = JSON.stringify({"pid": pid,"projectid" : projectid,"module" : module,"explain"  : explain,"leader"  : leader,"remark":remark});
+                
+                $.ajax({
+                    "url"       : interfaceUrl.updatamodule,
+                    "type"      : "post",
+                    "headers"   : {"Content-Type":"application/json"},
+                    "data"      : datas,
+                    "success":function(data){
+                        console.log(data.msg);
+                        pageInit();
+                    }
+                });
                 
                 $(".alertBox").removeClass("modify");
             }
