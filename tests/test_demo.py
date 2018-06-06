@@ -1,5 +1,13 @@
+import unittest
 
-a = 1
-if not isinstance(a,list):
-    raise "aaa"
-print(111)
+
+def xxx(self):
+    print("xxx")
+
+suite = unittest.TestSuite()
+
+
+suite.addTest(xxx)
+
+runner = unittest.TextTestRunner(verbosity=2)
+runner.run(suite)

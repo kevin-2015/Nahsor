@@ -11,3 +11,6 @@ class Error(BaseException):
 
 class NotFoundCaseError(Error):
     pass
+
+class NotFoundMethodError(Error):
+    pass

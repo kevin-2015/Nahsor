@@ -54,47 +54,11 @@ def chick_type_json(filename):
         # print(all_tests)
     if not isinstance(json_context, list):
         raise exception.NotFoundCaseError("用例格式错误，json数据不是list")
-    for testcase in json_context:
-        if not testcase:
-            raise exception.NotFoundCaseError("在json文件中没有找到testcase")
-        case =  testcase["testcase"]
-        request = case["request"]
-        url = request["url"]
-        method = request["method"]
+    if len(json_context) == 0:
+        raise exception.NotFoundCaseError("在json文件中没有找到testcase")
+    return json_context
 
 
-
-
-
-def collect_file_cass(filename):
-    '''
-    读取json并执行用例。
-    '''
-    with open(filename, 'r') as f:
-        all_tests = json.load(f)
-        # print(all_tests)
-    for test in all_tests:
-        if not test:
-            Logger().error("没有发现测试用例，结束用例执行！")
-        # try:
-        runner = Runner(test)
-        yield runner.run_test()
-        # except:
-        #     print("【%s】用例执行失败" % test["cass_name"])
-
-
-def get_reports_max_version():
-    """
-    获取测试报告的最后一个版本
-    :return:
-    """
-    from app.utils.dbfucs import query
-    sql = "select max(version) as version from t_reports"
-    r = query(sql)[0]
-    if r.get("version"):
-        return r.get("version") + 1
-    else:
-        return 1
 
 
 def collect_db_cass(jsoncasss):

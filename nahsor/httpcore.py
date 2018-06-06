@@ -6,28 +6,33 @@
 '''
 import requests
 from logger import Logger
-Logger = Logger()
+from exception import NotFoundMethodError
+requests.packages.urllib3.disable_warnings()
+logger = Logger()
 
 
-def run_http_test(testname, request):
-    '''
-    对HTTP接口发送请求
-    '''
-    Logger.info("开始执行测试用例[%s]" % testname)
-    Logger.info("接口请求地址为 --> %s" % request["url"])
-    Logger.info("接口请求方法为 --> %s" % request["method"])
-    Logger.info("接口请求header --> %s" % request["headers"])
-    Logger.info("接口请求数据为 --> %s" % request["json"])
-    try:
-        r = requests.request(**request)
-    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as timeout:
-        Logger.error("测试用例[%s]在执行过程中出现异常，错误信息为 --> %s" % (testname, timeout))
-    Logger.info("接口响应时间为 --> %ss" % r.elapsed.total_seconds())
-    Logger.info("接口响应状态为 --> %s" % r.status_code)
-    Logger.info("接口响应内容为 --> %s" % r.text)
-    if r.status_code == 200:
-        return r
-    else:
-        # Logger.error("测试用例[%s]在执行过程中出现异常，错误信息为 --> [code:%s],[error:%s]" % (testname, r.status_code, r.text))
-        raise Exception()
+METHODS = ['GET', 'POST', 'HEAD', 'TRACE', 'PUT', 'DELETE', 'OPTIONS', 'CONNECT']
 
+
+class HTTPClient(object):
+    """
+    http请求的client。初始化时传入url、method等。
+    >>> HTTPClient('http://www.baidu.com').send()
+    <Response [200]>
+    """
+    def __init__(self, url, method='GET', **kwargs):
+        self.url = url
+        self.session = requests.session()
+        self.method = method.upper()
+        if self.method not in METHODS:
+            raise NotFoundMethodError('不支持的method:{0}，请检查传入参数！'.format(self.method))
+
+
+    def send(self,**kwargs):
+        try:
+            response = self.session.request(method=self.method, url=self.url, **kwargs)
+            response.encoding = 'utf-8'
+            return response
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as timeout:
+            logger.error("接口连接超时", timeout)
+            raise
