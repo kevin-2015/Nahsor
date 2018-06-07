@@ -17,7 +17,7 @@ METHODS = ['GET', 'POST', 'HEAD', 'TRACE', 'PUT', 'DELETE', 'OPTIONS', 'CONNECT'
 class HTTPClient(object):
     """
     http请求的client。初始化时传入url、method等。
-    >>> HTTPClient('http://www.baidu.com').send()
+    HTTPClient('http://www.baidu.com').send()
     <Response [200]>
     """
     def __init__(self, url, method='GET', **kwargs):
