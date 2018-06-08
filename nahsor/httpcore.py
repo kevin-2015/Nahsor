@@ -10,29 +10,21 @@ from exception import NotFoundMethodError
 requests.packages.urllib3.disable_warnings()
 logger = Logger()
 
-
-METHODS = ['GET', 'POST', 'HEAD', 'TRACE', 'PUT', 'DELETE', 'OPTIONS', 'CONNECT']
-
-
-class HTTPClient(object):
-    """
-    http请求的client。初始化时传入url、method等。
-    HTTPClient('http://www.baidu.com').send()
-    <Response [200]>
-    """
-    def __init__(self, url, method='GET', **kwargs):
-        self.url = url
-        self.session = requests.session()
-        self.method = method.upper()
-        if self.method not in METHODS:
-            raise NotFoundMethodError('不支持的method:{0}，请检查传入参数！'.format(self.method))
-
-
-    def send(self,**kwargs):
-        try:
-            response = self.session.request(method=self.method, url=self.url, **kwargs)
-            response.encoding = 'utf-8'
-            return response
-        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as timeout:
-            logger.error("接口连接超时", timeout)
-            raise
+def httptest(request):
+    '''
+    "request": {
+        "url": "http://127.0.0.1/test",
+        "method": "POST",
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "json": {
+            "username": "admin",
+            "password":"123456"
+        }
+    '''
+    url = request.pop("url")
+    method = request.pop("method")
+    kwargs = request
+    response = requests.request(url,method,**kwargs)
+    return response

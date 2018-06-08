@@ -1,13 +1,10 @@
-import unittest
 
+testdata = {
+    "a":[1,2],
+    "b":[2,3],
+    "c":[3,4]
+    }
+for key, value in testdata.items():
+    print(key,value)
 
-def xxx(self):
-    print("xxx")
-
-suite = unittest.TestSuite()
-
-
-suite.addTest(xxx)
-
-runner = unittest.TextTestRunner(verbosity=2)
-runner.run(suite)
+assert eval("200==200")
