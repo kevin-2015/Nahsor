@@ -5,10 +5,10 @@
 说明：封装了requests的方法
 '''
 import requests
-from logger import Logger
-from exception import NotFoundMethodError
+# from logger import Logger
+# from exception import NotFoundMethodError
 requests.packages.urllib3.disable_warnings()
-logger = Logger()
+# logger = Logger()
 
 def httptest(request):
     '''
@@ -23,8 +23,10 @@ def httptest(request):
             "password":"123456"
         }
     '''
+    
     url = request.pop("url")
     method = request.pop("method")
     kwargs = request
-    response = requests.request(url,method,**kwargs)
+    print(kwargs)
+    response = requests.request(method,url,**kwargs)
     return response

@@ -20,7 +20,8 @@ def getassert(key):
         "IsInstance": "isinstance",
         "NotIsInstance": "not isinstance"
     }
-    return asserts[key]
+    value = asserts[key]
+    return value
 
 def resobj(response, validates):
     '''
@@ -38,8 +39,9 @@ def resobj(response, validates):
     validatelist = []
     for key, value in validates.items():
         first = eval(value[0])
-        second = eval(value[1])
+        second = eval(value[1]
         assertvalue = getassert(key)
+
         validate = first + assertvalue + value
         validatelist.append(validate)
     return validatelist

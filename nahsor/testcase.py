@@ -6,7 +6,7 @@
 '''
 import json
 from logger import Logger
-from nahsor import exception
+import exception
 logger = Logger()
 
 
