@@ -26,11 +26,12 @@ class TestCase(unittest.TestCase):
         validatelist = resobj(response, validates)
         chick_validate(validatelist)
 
-suite = unittest.TestSuite()
 
-suite.addTest(TestCase())
 
-runner = unittest.TextTestRunner(verbosity=2)
-runner.run(suite)
+def run():
+    suite = unittest.TestSuite()
+    suite.addTest(TestCase())
+    runner = unittest.TextTestRunner(verbosity=2)
+    runner.run(suite)
 
 # test_http_cass()
