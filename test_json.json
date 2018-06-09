@@ -13,7 +13,7 @@
             }
         },
         "validates": {
-            "Equal": ["resdata['status']", "201"]
+            "Equal": ["resdata['status']", "200"]
         }
         }
 ]

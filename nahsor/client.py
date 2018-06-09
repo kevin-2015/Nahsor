@@ -11,21 +11,26 @@ from testcase import import_json_file, chick_type_json
 from validate import chick_validate
 
 
+class TestCase(unittest.TestCase):
 
-def test_http_cass():
-    filename = "test_json.json"
-    filename = import_json_file(filename)
-    json_context = chick_type_json(filename)[0]
-    request = json_context.get("request")
-    validates = json_context.get("validates")
-    response = httptest(request)
-    validatelist = resobj(response, validates)
-    chick_validate(validatelist)
+    def runTest(self):
+        '''
+        ?
+        '''
+        filename = "test_json.json"
+        filename = import_json_file(filename)
+        json_context = chick_type_json(filename)[0]
+        request = json_context.get("request")
+        validates = json_context.get("validates")
+        response = httptest(request)
+        validatelist = resobj(response, validates)
+        chick_validate(validatelist)
 
-# suite = unittest.TestSuite()
-# suite.addTest(test_http_cass)
+suite = unittest.TestSuite()
 
-# runner = unittest.TextTestRunner(verbosity=1)
-# runner.run(suite)
+suite.addTest(TestCase())
 
-test_http_cass()
+runner = unittest.TextTestRunner(verbosity=2)
+runner.run(suite)
+
+# test_http_cass()
