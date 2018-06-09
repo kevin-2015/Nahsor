@@ -22,10 +22,10 @@ def test_http_cass():
     validatelist = resobj(response, validates)
     chick_validate(validatelist)
 
-suite = unittest.TestSuite()
-suite.addTest(test_http_cass)
+# suite = unittest.TestSuite()
+# suite.addTest(test_http_cass)
 
-runner = unittest.TextTestRunner(verbosity=1)
-runner.run(suite)
+# runner = unittest.TextTestRunner(verbosity=1)
+# runner.run(suite)
 
-# test_http_cass(json_context)
+test_http_cass()

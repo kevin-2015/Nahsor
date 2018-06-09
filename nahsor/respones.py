@@ -40,9 +40,8 @@ def resobj(response, validates):
     validatelist = []
     for key, value in validates.items():
         first = eval(value[0])
-        second = eval(value[1]
+        second = eval(value[1])
         assertvalue = getassert(key)
-
-        validate = first + assertvalue + value
+        validate = str(first) + assertvalue + str(second)
         validatelist.append(validate)
     return validatelist

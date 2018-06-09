@@ -19,7 +19,7 @@ def import_json_file(filename):
     if filetype[-1] == "json" and filename.startswith("test"):
         return filename
     else:
-        logger.error("导入的JSON文件格式不正确，请检查JSON格式！")
+        logger.error("{}导入的JSON文件格式不正确，请检查JSON格式！".format(filename))
         exit()
 
 
