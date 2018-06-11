@@ -27,7 +27,7 @@ def httptest(request):
     url = request.pop("url")
     method = request.pop("method")
     kwargs = request
-    print(kwargs)
+    # print(kwargs)
     try:
         response = requests.request(method,url,**kwargs)
         return response

@@ -22,10 +22,12 @@ def run():
     json_context = chick_type_json(filename)
     request = json_context.get("request")
     validates = json_context.get("validates")
-    response = httptest(request)
-    validatelist = resobj(response, validates)
-    chick_validate(validatelist)
-    logger.info("测试！！！")
+    try:
+        response = httptest(request)
+        validatelist = resobj(response, validates)
+        chick_validate(validatelist)
+    except:
+        logger.error("EEEEEEEE")
 
 
 run()
