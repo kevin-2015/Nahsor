@@ -13,22 +13,25 @@ from logger import Logger
 
 logger = Logger()
 
-def run():
-    '''
-    ?
-    '''
-    filename = "test_json.json"
-    filename = import_json_file(filename)
-    json_context = chick_type_json(filename)
-    request = json_context.get("request")
-    validates = json_context.get("validates")
-    try:
+
+class TestCass(unittest.TestCase):
+
+    def runTest(self):
+        '''
+        ?
+        '''
+        filename = "test_json.json"
+        filename = import_json_file(filename)
+        json_context = chick_type_json(filename)
+        request = json_context.get("request")
+        validates = json_context.get("validates")
         response = httptest(request)
         validatelist = resobj(response, validates)
         chick_validate(validatelist)
-    except:
-        logger.error("EEEEEEEE")
 
 
-run()
+suite = unittest.TestSuite()
+suite.addTest(TestCass())
 
+runner = unittest.TextTestRunner()
+runner.run(suite)
