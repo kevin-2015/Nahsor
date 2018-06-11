@@ -51,8 +51,8 @@ def chick_type_json(filename):
     '''
     with open(filename, 'r') as f:
         json_context = json.load(f)
-        # print(all_tests)
-    if not isinstance(json_context, list):
+        # print(json_context)
+    if not isinstance(json_context, dict):
         raise exception.NotFoundCaseError("用例格式错误，json数据不是list")
     if len(json_context) == 0:
         raise exception.NotFoundCaseError("在json文件中没有找到testcase")

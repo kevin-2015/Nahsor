@@ -21,7 +21,7 @@ def getassert(key):
         "NotIsInstance": "not isinstance"
     }
     value = asserts[key]
-    print(value)
+    # print(value)
     return value
 
 def resobj(response, validates):

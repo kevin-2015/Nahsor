@@ -5,10 +5,10 @@
 说明：封装了requests的方法
 '''
 import requests
-# from logger import Logger
+from logger import Logger
 # from exception import NotFoundMethodError
 requests.packages.urllib3.disable_warnings()
-# logger = Logger()
+logger = Logger()
 
 def httptest(request):
     '''
@@ -28,5 +28,8 @@ def httptest(request):
     method = request.pop("method")
     kwargs = request
     print(kwargs)
-    response = requests.request(method,url,**kwargs)
-    return response
+    try:
+        response = requests.request(method,url,**kwargs)
+        return response
+    except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as timeout:
+        logger.error("接口连接超时")

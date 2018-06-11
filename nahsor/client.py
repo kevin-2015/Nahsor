@@ -9,29 +9,24 @@ from httpcore import httptest
 from respones import resobj
 from testcase import import_json_file, chick_type_json
 from validate import chick_validate
+from logger import Logger
 
-
-class TestCase(unittest.TestCase):
-
-    def runTest(self):
-        '''
-        ?
-        '''
-        filename = "test_json.json"
-        filename = import_json_file(filename)
-        json_context = chick_type_json(filename)[0]
-        request = json_context.get("request")
-        validates = json_context.get("validates")
-        response = httptest(request)
-        validatelist = resobj(response, validates)
-        chick_validate(validatelist)
-
-
+logger = Logger()
 
 def run():
-    suite = unittest.TestSuite()
-    suite.addTest(TestCase())
-    runner = unittest.TextTestRunner(verbosity=2)
-    runner.run(suite)
+    '''
+    ?
+    '''
+    filename = "test_json.json"
+    filename = import_json_file(filename)
+    json_context = chick_type_json(filename)
+    request = json_context.get("request")
+    validates = json_context.get("validates")
+    response = httptest(request)
+    validatelist = resobj(response, validates)
+    chick_validate(validatelist)
+    logger.info("测试！！！")
 
-# test_http_cass()
+
+run()
+

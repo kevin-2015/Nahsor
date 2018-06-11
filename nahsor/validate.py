@@ -5,11 +5,15 @@
 说明：对预期结果和实际结果做校验
 '''
 
-
+from exception import ValidateError
 
 def chick_validate(validatelist):
     '''
     validatelist = ["a=1","b=2"]
     '''
     for validate in validatelist:
-        assert eval(validate)
+        print(validate)
+        if eval(validate):
+            print("测试通过")
+        else:
+            raise ValidateError(validate,"预期结果与实际结果不一致！")

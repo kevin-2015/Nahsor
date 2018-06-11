@@ -14,3 +14,6 @@ class NotFoundCaseError(Error):
 
 class NotFoundMethodError(Error):
     pass
+
+class ValidateError(Error):
+    pass
